@@ -23,18 +23,10 @@
   <script type="text/babel">
     const { useState, useEffect } = React;
 
-    // Colors
-    const colors = {
-      deepseaBlue: '#444496',
-      marineGreen: '#3CEF2F',
-      marineGreenDark: '#2BC41E',
-      charcoalBlack: '#262526',
-      prettyWhite: '#FFFFFF',
-      kingOrange: '#FF6D00',
-      lightGray: '#f5f7f9'
-    };
+    // Logo as base64
+    const logoBase64 = "data:image/webp;base64,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";
 
-    // Placeholder SVG icons (base64 encoded simple icons)
+    // Placeholder SVG icons (in Deepsea Blue #444496)
     const particulierIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='35' r='20' fill='%23444496'/%3E%3Cpath d='M20 90 Q20 60 50 60 Q80 60 80 90' fill='%23444496'/%3E%3C/svg%3E";
     const zakelijkIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='20' y='30' width='25' height='50' fill='%23444496'/%3E%3Crect x='50' y='20' width='20' height='60' fill='%23444496' opacity='0.7'/%3E%3Crect x='75' y='40' width='15' height='40' fill='%23444496' opacity='0.5'/%3E%3C/svg%3E";
 
@@ -207,17 +199,11 @@
             alignItems: 'center',
             justifyContent: 'center'
           }}>
-            <div style={{
-              color: colors.prettyWhite,
-              fontSize: '24px',
-              fontWeight: '700',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px'
-            }}>
-              <span style={{ color: colors.marineGreen }}>⚡</span>
-              green marine
-            </div>
+            <img 
+              src={logoBase64}
+              alt="Green Marine"
+              style={{ height: '40px', width: 'auto' }}
+            />
           </div>
 
           {/* Accent bar */}
@@ -528,178 +514,106 @@
             {/* Results */}
             {showResults && !showContactForm && (
               <>
+                {/* Main Recommendation Card with golden animated border */}
                 <div style={{
-                  textAlign: 'center',
-                  marginBottom: '24px'
+                  position: 'relative',
+                  padding: '3px',
+                  borderRadius: '23px',
+                  background: 'linear-gradient(90deg, #FFD700, #FFA500, #FFD700, #FFA500)',
+                  backgroundSize: '300% 100%',
+                  animation: 'shimmer 3s linear infinite',
+                  marginBottom: '16px'
                 }}>
                   <div style={{
-                    width: '64px',
-                    height: '64px',
-                    backgroundColor: `${colors.kingOrange}15`,
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    margin: '0 auto 16px auto'
-                  }}>
-                    <span style={{ fontSize: '32px', color: colors.kingOrange }}>✓</span>
-                  </div>
-                  <h2 style={{
-                    margin: '0 0 8px 0',
-                    fontSize: '22px',
-                    fontWeight: '700',
-                    color: colors.charcoalBlack
-                  }}>
-                    Jouw aanbeveling
-                  </h2>
-                  <p style={{
-                    margin: 0,
-                    fontSize: '14px',
-                    color: '#666'
-                  }}>
-                    Op basis van jouw bootgegevens
-                  </p>
-                </div>
-
-                {/* Main Recommendation Card */}
-                <div style={{
-                  background: `linear-gradient(135deg, ${colors.deepseaBlue} 0%, #363680 100%)`,
-                  borderRadius: '20px',
-                  padding: '28px',
-                  marginBottom: '20px',
-                  color: colors.prettyWhite,
-                  textAlign: 'center'
-                }}>
-                  <p style={{
-                    margin: '0 0 4px 0',
-                    fontSize: '13px',
-                    opacity: 0.8,
-                    textTransform: 'uppercase',
-                    letterSpacing: '1px'
-                  }}>
-                    Aanbevolen motor
-                  </p>
-                  <h3 style={{
-                    margin: '0 0 16px 0',
-                    fontSize: '36px',
-                    fontWeight: '700'
-                  }}>
-                    {recommendation.motor}
-                  </h3>
-                  <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr',
-                    gap: '16px'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'rgba(255,255,255,0.1)',
-                      borderRadius: '12px',
-                      padding: '16px'
-                    }}>
-                      <p style={{ margin: 0, fontSize: '12px', opacity: 0.8 }}>Motorvermogen</p>
-                      <p style={{ margin: '4px 0 0 0', fontSize: '24px', fontWeight: '700' }}>
-                        {recommendation.motorPower} <span style={{ fontSize: '14px' }}>kW</span>
-                      </p>
-                    </div>
-                    <div style={{
-                      backgroundColor: 'rgba(255,255,255,0.1)',
-                      borderRadius: '12px',
-                      padding: '16px'
-                    }}>
-                      <p style={{ margin: 0, fontSize: '12px', opacity: 0.8 }}>Batterijcapaciteit</p>
-                      <p style={{ margin: '4px 0 0 0', fontSize: '24px', fontWeight: '700' }}>
-                        {recommendation.batteryCapacity} <span style={{ fontSize: '14px' }}>kWh</span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Performance Stats */}
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr',
-                  gap: '12px',
-                  marginBottom: '24px'
-                }}>
-                  <div style={{
-                    backgroundColor: colors.lightGray,
-                    borderRadius: '14px',
-                    padding: '18px',
-                    textAlign: 'center'
-                  }}>
-                    <p style={{
-                      margin: 0,
-                      fontSize: '12px',
-                      color: '#666',
-                      textTransform: 'uppercase'
-                    }}>Vaartijd kruissnelheid</p>
-                    <p style={{
-                      margin: '6px 0 0 0',
-                      fontSize: '28px',
-                      fontWeight: '700',
-                      color: colors.marineGreenDark
-                    }}>
-                      {recommendation.estimatedCruisingTime} <span style={{ fontSize: '14px' }}>uur</span>
-                    </p>
-                  </div>
-                  <div style={{
-                    backgroundColor: colors.lightGray,
-                    borderRadius: '14px',
-                    padding: '18px',
-                    textAlign: 'center'
-                  }}>
-                    <p style={{
-                      margin: 0,
-                      fontSize: '12px',
-                      color: '#666',
-                      textTransform: 'uppercase'
-                    }}>Kruissnelheid</p>
-                    <p style={{
-                      margin: '6px 0 0 0',
-                      fontSize: '28px',
-                      fontWeight: '700',
-                      color: colors.deepseaBlue
-                    }}>
-                      {recommendation.cruisingSpeed} <span style={{ fontSize: '14px' }}>km/h</span>
-                    </p>
-                  </div>
-                </div>
-
-                {/* Tip Box */}
-                <div style={{
-                  backgroundColor: `${colors.kingOrange}10`,
-                  borderRadius: '12px',
-                  padding: '16px',
-                  marginBottom: '24px',
-                  fontSize: '13px',
-                  color: colors.charcoalBlack,
-                  lineHeight: '1.6',
-                  borderLeft: `4px solid ${colors.kingOrange}`
-                }}>
-                  <strong style={{ color: colors.kingOrange }}>💡 Tip:</strong> Bij kruissnelheid ({recommendation.cruisingSpeed} km/h) 
-                  verbruikt u slechts {recommendation.requiredPowerCruising} kW. 
-                  Volgas ({recommendation.maxHullSpeed} km/h) geeft ~{recommendation.volgasTime} uur vaartijd.
-                </div>
-
-                {/* CTA Button */}
-                <button
-                  onClick={() => setShowContactForm(true)}
-                  style={{
-                    width: '100%',
-                    padding: '20px',
-                    fontSize: '18px',
-                    fontWeight: '700',
+                    background: `linear-gradient(135deg, ${colors.deepseaBlue} 0%, #363680 100%)`,
+                    borderRadius: '20px',
+                    padding: '24px',
                     color: colors.prettyWhite,
-                    background: `linear-gradient(135deg, ${colors.marineGreen} 0%, ${colors.marineGreenDark} 100%)`,
-                    border: 'none',
-                    borderRadius: '14px',
-                    cursor: 'pointer',
-                    boxShadow: `0 4px 20px ${colors.marineGreen}40`,
-                    marginBottom: '12px'
-                  }}
-                >
-                  🎯 Ontdek de prijs
-                </button>
+                    textAlign: 'center'
+                  }}>
+                    <p style={{
+                      margin: '0 0 4px 0',
+                      fontSize: '12px',
+                      opacity: 0.8,
+                      textTransform: 'uppercase',
+                      letterSpacing: '1px'
+                    }}>
+                      Jouw aanbeveling
+                    </p>
+                    <h3 style={{
+                      margin: '0 0 20px 0',
+                      fontSize: '32px',
+                      fontWeight: '700'
+                    }}>
+                      {recommendation.motor}
+                    </h3>
+                    <div style={{
+                      display: 'grid',
+                      gridTemplateColumns: '1fr 1fr',
+                      gap: '12px',
+                      marginBottom: '16px'
+                    }}>
+                      <div style={{
+                        backgroundColor: 'rgba(255,255,255,0.1)',
+                        borderRadius: '12px',
+                        padding: '14px'
+                      }}>
+                        <p style={{ margin: 0, fontSize: '11px', opacity: 0.8 }}>Vermogen</p>
+                        <p style={{ margin: '4px 0 0 0', fontSize: '22px', fontWeight: '700' }}>
+                          {recommendation.motorPower} <span style={{ fontSize: '12px' }}>kW</span>
+                        </p>
+                      </div>
+                      <div style={{
+                        backgroundColor: 'rgba(255,255,255,0.1)',
+                        borderRadius: '12px',
+                        padding: '14px'
+                      }}>
+                        <p style={{ margin: 0, fontSize: '11px', opacity: 0.8 }}>Batterij</p>
+                        <p style={{ margin: '4px 0 0 0', fontSize: '22px', fontWeight: '700' }}>
+                          {recommendation.batteryCapacity} <span style={{ fontSize: '12px' }}>kWh</span>
+                        </p>
+                      </div>
+                      <div style={{
+                        backgroundColor: 'rgba(255,255,255,0.1)',
+                        borderRadius: '12px',
+                        padding: '14px'
+                      }}>
+                        <p style={{ margin: 0, fontSize: '11px', opacity: 0.8 }}>Vaartijd</p>
+                        <p style={{ margin: '4px 0 0 0', fontSize: '22px', fontWeight: '700' }}>
+                          {recommendation.estimatedCruisingTime} <span style={{ fontSize: '12px' }}>uur</span>
+                        </p>
+                      </div>
+                      <div style={{
+                        backgroundColor: 'rgba(255,255,255,0.1)',
+                        borderRadius: '12px',
+                        padding: '14px'
+                      }}>
+                        <p style={{ margin: 0, fontSize: '11px', opacity: 0.8 }}>Snelheid</p>
+                        <p style={{ margin: '4px 0 0 0', fontSize: '22px', fontWeight: '700' }}>
+                          {recommendation.cruisingSpeed} <span style={{ fontSize: '12px' }}>km/h</span>
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* CTA Button inside card */}
+                    <button
+                      onClick={() => setShowContactForm(true)}
+                      style={{
+                        width: '100%',
+                        padding: '16px',
+                        fontSize: '16px',
+                        fontWeight: '700',
+                        color: colors.charcoalBlack,
+                        background: `linear-gradient(135deg, ${colors.marineGreen} 0%, ${colors.marineGreenDark} 100%)`,
+                        border: 'none',
+                        borderRadius: '12px',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Ontdek de prijs →
+                    </button>
+                  </div>
+                </div>
 
                 <button
                   onClick={() => {
@@ -708,17 +622,23 @@
                   }}
                   style={{
                     width: '100%',
-                    padding: '14px',
+                    padding: '12px',
                     fontSize: '14px',
                     color: '#666',
                     backgroundColor: 'transparent',
-                    border: '1px solid #ddd',
-                    borderRadius: '12px',
+                    border: 'none',
                     cursor: 'pointer'
                   }}
                 >
-                  Opnieuw berekenen
+                  ← Opnieuw berekenen
                 </button>
+
+                <style>{`
+                  @keyframes shimmer {
+                    0% { background-position: 0% 50%; }
+                    100% { background-position: 300% 50%; }
+                  }
+                `}</style>
               </>
             )}
 
@@ -902,14 +822,24 @@
 
     // Landing Page Component
     function GreenMarineLandingPage() {
-      const [isScrolled, setIsScrolled] = useState(false);
+      const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
+      const [reviewVisible, setReviewVisible] = useState(true);
+
+      const reviews = [
+        { name: 'Johan de V.', text: 'Uitstekende service en een prachtige motor. Stil, krachtig en betrouwbaar.' },
+        { name: 'Marieke B.', text: 'Eindelijk elektrisch varen zonder zorgen. Top advies gehad van het team.' },
+        { name: 'Peter K.', text: 'Na 2 seizoenen nog steeds super tevreden. Geen onderhoud, gewoon genieten.' }
+      ];
 
       useEffect(() => {
-        const handleScroll = () => {
-          setIsScrolled(window.scrollY > 50);
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
+        const interval = setInterval(() => {
+          setReviewVisible(false);
+          setTimeout(() => {
+            setCurrentReviewIndex((prev) => (prev + 1) % reviews.length);
+            setReviewVisible(true);
+          }, 500);
+        }, 5000);
+        return () => clearInterval(interval);
       }, []);
 
       const usps = [
@@ -917,12 +847,6 @@
         'Zeer robuust, ook geschikt voor professioneel gebruik',
         '5 jaar garantie',
         'Systemen voor boten van 5 tot 50 meter lengte'
-      ];
-
-      const reviews = [
-        { name: 'Johan de V.', rating: 5, text: 'Uitstekende service en een prachtige motor. Stil, krachtig en betrouwbaar.', date: 'november 2025' },
-        { name: 'Marieke B.', rating: 5, text: 'Eindelijk elektrisch varen zonder zorgen. Top advies gehad van het team.', date: 'oktober 2025' },
-        { name: 'Peter K.', rating: 5, text: 'Na 2 seizoenen nog steeds super tevreden. Geen onderhoud, gewoon genieten.', date: 'september 2025' }
       ];
 
       return (
@@ -933,48 +857,31 @@
           color: colors.charcoalBlack
         }}>
           
-          {/* Sticky Header */}
+          {/* Sticky Header - Deepsea Blue met review carousel */}
           <header style={{
             position: 'fixed',
             top: 0,
             left: 0,
             right: 0,
             zIndex: 100,
-            backgroundColor: colors.prettyWhite,
-            borderBottom: '1px solid #e0e0e0',
-            padding: isScrolled ? '8px 16px' : '12px 20px',
+            backgroundColor: colors.deepseaBlue,
+            padding: '12px 20px',
             display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            transition: 'all 0.3s ease',
-            boxShadow: isScrolled ? '0 2px 10px rgba(0,0,0,0.1)' : 'none'
+            flexDirection: 'column',
+            gap: '10px',
+            boxShadow: '0 2px 10px rgba(0,0,0,0.15)'
           }}>
+            {/* Top row: Logo + Phone */}
             <div style={{
-              color: colors.deepseaBlue,
-              fontSize: isScrolled ? '18px' : '20px',
-              fontWeight: '700',
               display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              transition: 'font-size 0.3s ease'
+              justifyContent: 'space-between',
+              alignItems: 'center'
             }}>
-              <span style={{ color: colors.marineGreen }}>⚡</span>
-              green marine
-            </div>
-            
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              {isScrolled && (
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '4px',
-                  fontSize: '12px',
-                  color: colors.charcoalBlack
-                }}>
-                  <span style={{ color: colors.kingOrange }}>★</span>
-                  <span style={{ fontWeight: '600' }}>5.0</span>
-                </div>
-              )}
+              <img 
+                src={logoBase64}
+                alt="Green Marine"
+                style={{ height: '36px', width: 'auto' }}
+              />
               
               <a 
                 href="tel:+31853031111"
@@ -985,20 +892,56 @@
                   gap: '8px',
                   backgroundColor: colors.kingOrange,
                   color: colors.prettyWhite,
-                  padding: isScrolled ? '8px 12px' : '10px 16px',
+                  padding: '10px 16px',
                   borderRadius: '8px',
                   textDecoration: 'none',
                   fontSize: '14px',
-                  fontWeight: '600',
-                  transition: 'all 0.3s ease'
+                  fontWeight: '600'
                 }}
               >
-                📞 {!isScrolled && 'Bel ons'}
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+                <span>Bel ons</span>
               </a>
+            </div>
+
+            {/* Review carousel */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              minHeight: '24px'
+            }}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px'
+              }}>
+                <span style={{ color: colors.kingOrange, fontSize: '14px' }}>★★★★★</span>
+                <span style={{ color: colors.prettyWhite, fontSize: '13px', fontWeight: '600' }}>5.0</span>
+              </div>
+              <div style={{
+                flex: 1,
+                overflow: 'hidden'
+              }}>
+                <p style={{
+                  margin: 0,
+                  fontSize: '13px',
+                  color: colors.prettyWhite,
+                  opacity: reviewVisible ? 1 : 0,
+                  transition: 'opacity 0.5s ease',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis'
+                }}>
+                  "{reviews[currentReviewIndex].text}" — <span style={{ opacity: 0.8 }}>{reviews[currentReviewIndex].name}</span>
+                </p>
+              </div>
             </div>
           </header>
 
-          <div style={{ height: '60px' }} />
+          <div style={{ height: '100px' }} />
 
           {/* Main Content */}
           <main style={{

@@ -97,7 +97,7 @@ export default function GreenMarineLandingPage() {
       <main style={{
         maxWidth: '600px',
         margin: '0 auto',
-        padding: '24px 16px 40px 16px'
+        padding: '24px 16px 120px 16px' /* extra bottom padding to account for sticky bar */
       }}>
         
         {/* Calculator */}
@@ -260,6 +260,66 @@ export default function GreenMarineLandingPage() {
           </p>
         </section>
       </main>
+
+      {/* Sticky Bottom CTA Bar (mobile-first) */}
+      <div style={{
+        position: 'fixed',
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 200,
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: '12px 16px',
+        background: 'linear-gradient(90deg, rgba(68,68,150,0.04), rgba(255,255,255,0.98))',
+        borderTop: '1px solid #e9e9e9',
+        gap: '12px'
+      }}>
+        <a href="#embedded-calculator" style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+          textDecoration: 'none'
+        }}>
+          <div style={{
+            width: '44px',
+            height: '44px',
+            borderRadius: '10px',
+            background: '#ffffff',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 6px 18px rgba(68,68,150,0.06)'
+          }}>
+            ⚓
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
+            <strong style={{ fontSize: '15px', color: '#262526' }}>Start calculator</strong>
+            <span style={{ fontSize: '12px', color: '#666' }}>Bereken in 2 minuten</span>
+          </div>
+        </a>
+
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <a href="tel:+31853031" style={{
+            padding: '10px 14px',
+            borderRadius: '10px',
+            background: '#FF6D00',
+            color: '#fff',
+            textDecoration: 'none',
+            fontWeight: 700
+          }}>Bel ons</a>
+
+          <a href="#calculator-contact-form" style={{
+            padding: '10px 14px',
+            borderRadius: '10px',
+            background: '#3CEF2F',
+            color: '#111',
+            textDecoration: 'none',
+            fontWeight: 700
+          }}>Vraag offerte</a>
+        </div>
+      </div>
 
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // ============================================
 // GREEN MARINE CALCULATOR v2.1
@@ -258,8 +258,27 @@ export default function GreenMarineCalculator() {
   const currentStep = steps[step];
   const recommendation = showResults ? calculateRecommendation() : null;
 
+  useEffect(() => {
+    const handleHash = () => {
+      const h = window.location.hash;
+      if (h === '#calculator-contact-form') {
+        setShowContactForm(true);
+        setTimeout(() => {
+          document.getElementById('calculator-contact-form')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 200);
+      } else if (h === '#embedded-calculator') {
+        setTimeout(() => {
+          document.getElementById('embedded-calculator')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 150);
+      }
+    };
+    handleHash();
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
+  }, []);
+
   return (
-    <div style={{
+    <div id="embedded-calculator" style={{
       fontFamily: '"Quicksand", "Segoe UI", sans-serif',
       maxWidth: '600px',
       margin: '0 auto',
@@ -795,7 +814,7 @@ export default function GreenMarineCalculator() {
               Ontvang een persoonlijke offerte voor de {recommendation?.motor}
             </p>
 
-            <form onSubmit={handleContactSubmit} style={{
+            <form id="calculator-contact-form" onSubmit={handleContactSubmit} style={{
               display: 'flex',
               flexDirection: 'column',
               gap: '16px'

@@ -1,0 +1,24 @@
+{
+  "projectName": "Green Marine Calculator",
+  "siteId": "YOUR_WIX_SITE_ID",
+  "staticResources": [
+    "*.jsx",
+    "*.js",
+    "*.html",
+    "README.md",
+    "WIX_VELO_SETUP.md"
+  ],
+  "sync": {
+    "excludePaths": [
+      "node_modules/**",
+      ".git/**",
+      ".vscode/**",
+      "1x/**"
+    ]
+  },
+  "modules": {
+    "backend": {
+      "path": "backend/"
+    }
+  }
+}

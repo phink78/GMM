@@ -909,12 +909,12 @@
             }}>
               {/* Links: Logo */}
               <img 
-                src={logoBase64}
+                src="logo.png"
                 alt="Green Marine"
                 style={{ height: '32px', width: 'auto' }}
               />
               
-              {/* Midden: Google sterren link */}
+              {/* Midden: Google sterren link (verdwijnt bij scrollen) */}
               <a 
                 href="#reviews-section"
                 style={{
@@ -942,6 +942,31 @@
                   Google
                 </span>
               </a>
+
+              {/* Menu in blauwe balk (alleen bij scrollen) */}
+              {isScrolled && (
+                <nav style={{
+                  display: 'flex',
+                  gap: '20px',
+                  flex: 1,
+                  justifyContent: 'center'
+                }}>
+                  {menuItems.map((item, i) => (
+                    <a 
+                      key={i}
+                      href={item.href}
+                      style={{
+                        color: colors.prettyWhite,
+                        textDecoration: 'none',
+                        fontSize: '14px',
+                        fontWeight: '500'
+                      }}
+                    >
+                      {item.label}
+                    </a>
+                  ))}
+                </nav>
+              )}
               
               {/* Rechts: Telefoon */}
               <a 
@@ -966,20 +991,49 @@
                 </svg>
                 {!isScrolled && <span>Bel ons</span>}
               </a>
+
+              {/* Taaldropdown in blauwe balk (alleen bij scrollen) */}
+              {isScrolled && (
+                <select
+                  value={currentLang}
+                  onChange={(e) => setCurrentLang(e.target.value)}
+                  style={{
+                    padding: '8px',
+                    fontSize: '16px',
+                    fontWeight: '400',
+                    backgroundColor: 'transparent',
+                    color: colors.prettyWhite,
+                    border: 'none',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    appearance: 'none',
+                    WebkitAppearance: 'none',
+                    outline: 'none',
+                    marginLeft: '8px'
+                  }}
+                >
+                  <option value="NL">🇳🇱</option>
+                  <option value="EN">🇬🇧</option>
+                  <option value="SV">🇸🇪</option>
+                  <option value="DE">🇩🇪</option>
+                  <option value="FR">🇫🇷</option>
+                  <option value="ES">🇪🇸</option>
+                </select>
+              )}
             </div>
           </header>
 
-          {/* TWEEDE LAAG - Taal + Menu (merge in sticky header bij scrollen) */}
+          {/* TWEEDE LAAG - Taal + Menu (verdwijnt bij scrollen) */}
           <div style={{
             position: 'fixed',
-            top: isScrolled ? '56px' : '56px',
+            top: isScrolled ? '-50px' : '56px',
             left: 0,
             right: 0,
             zIndex: 99,
-            backgroundColor: isScrolled ? colors.deepseaBlue : colors.prettyWhite,
+            backgroundColor: colors.prettyWhite,
             borderBottom: '1px solid #e0e0e0',
             padding: '10px 16px',
-            transition: 'all 0.3s ease',
+            transition: 'top 0.3s ease',
             boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
           }}>
             <div style={{
@@ -990,7 +1044,7 @@
               margin: '0 auto',
               position: 'relative'
             }}>
-              {/* Hamburger menu button */}
+              {/* Hamburger menu button - links */}
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
                 style={{
@@ -1001,16 +1055,15 @@
                   border: 'none',
                   cursor: 'pointer',
                   padding: '8px',
-                  position: 'absolute',
-                  left: 0
+                  zIndex: 201
                 }}
               >
-                <div style={{ width: '24px', height: '2px', backgroundColor: colors.prettyWhite, borderRadius: '2px' }} />
-                <div style={{ width: '24px', height: '2px', backgroundColor: colors.prettyWhite, borderRadius: '2px' }} />
-                <div style={{ width: '24px', height: '2px', backgroundColor: colors.prettyWhite, borderRadius: '2px' }} />
+                <div style={{ width: '24px', height: '3px', backgroundColor: colors.kingOrange, borderRadius: '2px' }} />
+                <div style={{ width: '24px', height: '3px', backgroundColor: colors.kingOrange, borderRadius: '2px' }} />
+                <div style={{ width: '24px', height: '3px', backgroundColor: colors.kingOrange, borderRadius: '2px' }} />
               </button>
 
-              {/* Menu - gecentreerd, hidden op mobiel */}
+              {/* Menu dropdown */}
               <nav style={{
                 display: menuOpen ? 'flex' : 'none',
                 flexDirection: 'column',
@@ -1018,7 +1071,7 @@
                 position: 'absolute',
                 top: '50px',
                 left: 0,
-                backgroundColor: isScrolled ? colors.deepseaBlue : colors.prettyWhite,
+                backgroundColor: colors.prettyWhite,
                 padding: '16px',
                 borderRadius: '8px',
                 boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
@@ -1031,11 +1084,10 @@
                     href={item.href}
                     onClick={() => setMenuOpen(false)}
                     style={{
-                      color: isScrolled ? colors.prettyWhite : colors.charcoalBlack,
+                      color: colors.charcoalBlack,
                       textDecoration: 'none',
                       fontSize: '14px',
                       fontWeight: '500',
-                      transition: 'color 0.3s ease',
                       padding: '8px'
                     }}
                   >
@@ -1044,28 +1096,30 @@
                 ))}
               </nav>
 
-              {/* Taalinstelling */}
+              {/* Taalinstelling - rechts uitgelijnd, alleen vlaggen op mobiel */}
               <select
                 value={currentLang}
                 onChange={(e) => setCurrentLang(e.target.value)}
                 style={{
-                  padding: '6px 12px',
-                  fontSize: '12px',
-                  fontWeight: '600',
-                  backgroundColor: colors.prettyWhite,
+                  padding: '8px',
+                  fontSize: '16px',
+                  fontWeight: '400',
+                  backgroundColor: 'transparent',
                   color: colors.charcoalBlack,
-                  border: `1px solid ${colors.deepseaBlue}`,
+                  border: 'none',
                   borderRadius: '6px',
                   cursor: 'pointer',
-                  transition: 'all 0.2s ease'
+                  appearance: 'none',
+                  WebkitAppearance: 'none',
+                  outline: 'none'
                 }}
               >
-                <option value="NL">🇳🇱 Nederlands</option>
-                <option value="EN">🇬🇧 English</option>
-                <option value="SV">🇸🇪 Svenska</option>
-                <option value="DE">🇩🇪 Deutsch</option>
-                <option value="FR">🇫🇷 Français</option>
-                <option value="ES">🇪🇸 Español</option>
+                <option value="NL">🇳🇱</option>
+                <option value="EN">🇬🇧</option>
+                <option value="SV">🇸🇪</option>
+                <option value="DE">🇩🇪</option>
+                <option value="FR">🇫🇷</option>
+                <option value="ES">🇪🇸</option>
               </select>
             </div>
           </div>

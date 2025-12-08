@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Green Marine Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { 
+      font-family: 'Quicksand', sans-serif; 
+      background: transparent;
+      min-height: 100vh;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <script type="text/babel">
+    const { useState } = React;
+
+    const colors = {
+      deepseaBlue: '#444496',
+      marineGreen: '#3CEF2F',
+      marineGreenDark: '#2BC41E',
+      charcoalBlack: '#262526',
+      prettyWhite: '#FFFFFF',
+      kingOrange: '#FF6D00',
+      lightGray: '#f5f7f9'
+    };
+
+    function GreenMarineCalculator() {
+      const [step, setStep] = useState(0);
+      const [formData, setFormData] = useState({
+        customerType: '',
+        boatType: '',
+        boatLength: 6,
+        boatWeight: 2000,
+        currentDrive: '',
+        waterType: '',
+        tripDuration: ''
+      });
+      const [showResults, setShowResults] = useState(false);
+
+      const motors = [
+        { name: 'GM 2kW', power: 2, maxWeight: 1500, batteryOptions: [5, 10] },
+        { name: 'GM 4kW', power: 4, maxWeight: 3000, batteryOptions: [10, 15, 20] },
+        { name: 'GM 6kW', power: 6, maxWeight: 5000, batteryOptions: [15, 20, 30] },
+        { name: 'GM 10kW', power: 10, maxWeight: 8000, batteryOptions: [20, 30, 40] },
+        { name: 'GM 16kW', power: 16, maxWeight: 12000, batteryOptions: [30, 40, 50] },
+        { name: 'GM 25kW', power: 25, maxWeight: 20000, batteryOptions: [40, 50, 60] }
+      ];
+
+      const calculateRecommendation = () => {
+        const length = parseFloat(formData.boatLength) || 6;
+        const weight = parseFloat(formData.boatWeight) || 2000;
+        const durationMap = { '2-4': 3, '4-8': 6, '8+': 10 };
+        const desiredHours = durationMap[formData.tripDuration] || 6;
+        const maxHullSpeed = 4.5 * Math.sqrt(length);
+        const cruisingSpeed = maxHullSpeed * 0.7;
+        const displacementTons = weight / 1000;
+        const cruisingSpeedKnots = cruisingSpeed / 1.852;
+        let requiredPowerCruising = Math.pow(displacementTons, 0.67) * Math.pow(cruisingSpeedKnots, 3) / 150;
+        requiredPowerCruising = requiredPowerCruising * 1.3;
+        const maxPower = requiredPowerCruising * 6;
+        const suitableMotor = motors.find(m => m.power >= requiredPowerCruising && m.maxWeight >= weight) || motors[motors.length - 1];
+        const batteryCapacity = requiredPowerCruising * desiredHours;
+        const recommendedBattery = suitableMotor.batteryOptions.find(b => b >= batteryCapacity) || suitableMotor.batteryOptions[suitableMotor.batteryOptions.length - 1];
+        const actualCruisingTime = recommendedBattery / requiredPowerCruising;
+
+        return {
+          cruisingSpeed: cruisingSpeed.toFixed(1),
+          requiredPowerCruising: requiredPowerCruising.toFixed(2),
+          motor: suitableMotor.name,
+          motorPower: suitableMotor.power,
+          batteryCapacity: recommendedBattery,
+          estimatedCruisingTime: actualCruisingTime.toFixed(1)
+        };
+      };
+
+      const steps = [
+        {
+          id: 'customerType',
+          title: 'Type klant',
+          subtitle: 'Bent u particulier of zakelijk?',
+          options: [
+            { value: 'particulier', label: 'Particulier' },
+            { value: 'zakelijk', label: 'Zakelijk' }
+          ]
+        },
+        {
+          id: 'boatType',
+          title: 'Type boot',
+          subtitle: 'Wat voor boot heeft u?',
+          options: [
+            { value: 'sloep', label: 'Sloep' },
+            { value: 'zeilboot', label: 'Zeilboot' },
+            { value: 'motorboot', label: 'Motorboot' },
+            { value: 'speedboot', label: 'Speedboot' },
+            { value: 'werkboot', label: 'Werkboot' },
+            { value: 'anders', label: 'Anders' }
+          ]
+        },
+        {
+          id: 'boatSpecs',
+          title: 'Boot specificaties',
+          subtitle: 'Vul de gegevens van uw boot in',
+          type: 'input'
+        },
+        {
+          id: 'currentDrive',
+          title: 'Huidige aandrijving',
+          subtitle: 'Wat voor motor heeft uw boot nu?',
+          options: [
+            { value: 'buitenboord', label: 'Buitenboord' },
+            { value: 'binnenboord', label: 'Binnenboord' }
+          ]
+        },
+        {
+          id: 'waterType',
+          title: 'Vaargebied',
+          subtitle: 'Waar vaart u voornamelijk?',
+          options: [
+            { value: 'binnenwater', label: 'Binnenwater' },
+            { value: 'kustwater', label: 'Kustwater' },
+            { value: 'beide', label: 'Beide' }
+          ]
+        },
+        {
+          id: 'tripDuration',
+          title: 'Gemiddelde vaartocht',
+          subtitle: 'Hoe lang vaart u gemiddeld?',
+          options: [
+            { value: '2-4', label: '2-4 uur' },
+            { value: '4-8', label: '4-8 uur' },
+            { value: '8+', label: '8+ uur' }
+          ]
+        }
+      ];
+
+      const handleOptionSelect = (field, value) => {
+        setFormData(prev => ({ ...prev, [field]: value }));
+        setTimeout(() => {
+          if (step < steps.length - 1) {
+            setStep(step + 1);
+          } else {
+            setShowResults(true);
+          }
+        }, 300);
+      };
+
+      const currentStep = steps[step];
+      const recommendation = showResults ? calculateRecommendation() : null;
+
+      return (
+        <div style={{
+          maxWidth: '600px',
+          margin: '0 auto',
+          backgroundColor: colors.prettyWhite,
+          borderRadius: '24px',
+          overflow: 'hidden',
+          boxShadow: '0 8px 40px rgba(68, 68, 150, 0.12)'
+        }}>
+          
+          {/* Header */}
+          <div style={{
+            background: colors.deepseaBlue,
+            padding: '20px 24px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <img 
+              src="logo.png"
+              alt="Green Marine"
+              style={{ height: '40px', width: 'auto' }}
+            />
+          </div>
+
+          <div style={{
+            height: '4px',
+            background: `linear-gradient(90deg, ${colors.kingOrange} 0%, ${colors.marineGreen} 100%)`
+          }} />
+
+          <div style={{
+            padding: '20px 24px',
+            textAlign: 'center',
+            borderBottom: `1px solid ${colors.lightGray}`
+          }}>
+            <h2 style={{
+              margin: '0 0 6px 0',
+              fontSize: '18px',
+              fontWeight: '700',
+              color: colors.charcoalBlack
+            }}>
+              Ontdek welke motor bij jouw boot past
+            </h2>
+            <p style={{
+              margin: 0,
+              fontSize: '14px',
+              color: '#666'
+            }}>
+              In <span style={{ color: colors.kingOrange, fontWeight: '600' }}>2 minuten</span> een persoonlijke aanbeveling
+            </p>
+          </div>
+
+          {/* Progress Bar */}
+          {!showResults && (
+            <div style={{
+              padding: '16px 24px',
+              borderBottom: `1px solid ${colors.lightGray}`
+            }}>
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                marginBottom: '8px'
+              }}>
+                <span style={{ fontSize: '13px', color: '#666' }}>
+                  Stap {step + 1} van {steps.length}
+                </span>
+                <span style={{ fontSize: '13px', color: colors.kingOrange, fontWeight: '600' }}>
+                  {Math.round(((step + 1) / steps.length) * 100)}%
+                </span>
+              </div>
+              <div style={{
+                height: '6px',
+                backgroundColor: colors.lightGray,
+                borderRadius: '3px',
+                overflow: 'hidden'
+              }}>
+                <div style={{
+                  height: '100%',
+                  width: `${((step + 1) / steps.length) * 100}%`,
+                  backgroundColor: colors.marineGreen,
+                  borderRadius: '3px',
+                  transition: 'width 0.3s ease'
+                }} />
+              </div>
+            </div>
+          )}
+
+          {/* Content */}
+          <div style={{ padding: '32px 24px' }}>
+            
+            {!showResults && currentStep.type !== 'input' && (
+              <div>
+                <h2 style={{
+                  margin: '0 0 8px 0',
+                  fontSize: '22px',
+                  fontWeight: '700',
+                  color: colors.charcoalBlack
+                }}>{currentStep.title}</h2>
+                <p style={{
+                  margin: '0 0 24px 0',
+                  fontSize: '15px',
+                  color: '#666'
+                }}>{currentStep.subtitle}</p>
+                
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+                  gap: '12px'
+                }}>
+                  {currentStep.options.map(option => (
+                    <button
+                      key={option.value}
+                      onClick={() => handleOptionSelect(currentStep.id, option.value)}
+                      style={{
+                        padding: '24px 20px',
+                        backgroundColor: colors.prettyWhite,
+                        border: `2px solid #e0e0e0`,
+                        borderRadius: '14px',
+                        cursor: 'pointer',
+                        fontSize: '15px',
+                        fontWeight: '600',
+                        color: colors.charcoalBlack,
+                        transition: 'all 0.2s ease',
+                        fontFamily: 'Quicksand, sans-serif'
+                      }}
+                      onMouseOver={(e) => {
+                        e.target.style.borderColor = colors.deepseaBlue;
+                        e.target.style.transform = 'translateY(-2px)';
+                      }}
+                      onMouseOut={(e) => {
+                        e.target.style.borderColor = '#e0e0e0';
+                        e.target.style.transform = 'translateY(0)';
+                      }}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {!showResults && currentStep.type === 'input' && (
+              <div>
+                <h2 style={{
+                  margin: '0 0 8px 0',
+                  fontSize: '22px',
+                  fontWeight: '700',
+                  color: colors.charcoalBlack
+                }}>{currentStep.title}</h2>
+                <p style={{
+                  margin: '0 0 24px 0',
+                  fontSize: '15px',
+                  color: '#666'
+                }}>{currentStep.subtitle}</p>
+                
+                <div style={{ marginBottom: '28px' }}>
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    marginBottom: '8px'
+                  }}>
+                    <span style={{ fontSize: '14px', fontWeight: '600', color: colors.charcoalBlack }}>
+                      Lengte waterlijn
+                    </span>
+                    <span style={{ fontSize: '16px', fontWeight: '700', color: colors.deepseaBlue }}>
+                      {formData.boatLength}m
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min="3"
+                    max="20"
+                    step="0.5"
+                    value={formData.boatLength}
+                    onChange={(e) => setFormData({...formData, boatLength: e.target.value})}
+                    style={{
+                      width: '100%',
+                      height: '6px',
+                      borderRadius: '3px',
+                      outline: 'none',
+                      opacity: '0.9'
+                    }}
+                  />
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    marginTop: '4px'
+                  }}>
+                    <span style={{ fontSize: '11px', color: '#999' }}>3m</span>
+                    <span style={{ fontSize: '11px', color: '#999' }}>20m</span>
+                  </div>
+                </div>
+
+                <div style={{ marginBottom: '28px' }}>
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    marginBottom: '8px'
+                  }}>
+                    <span style={{ fontSize: '14px', fontWeight: '600', color: colors.charcoalBlack }}>
+                      Waterverplaatsing
+                    </span>
+                    <span style={{ fontSize: '16px', fontWeight: '700', color: colors.deepseaBlue }}>
+                      {formData.boatWeight.toLocaleString('nl-NL')} kg
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min="500"
+                    max="20000"
+                    step="100"
+                    value={formData.boatWeight}
+                    onChange={(e) => setFormData({...formData, boatWeight: e.target.value})}
+                    style={{
+                      width: '100%',
+                      height: '6px',
+                      borderRadius: '3px',
+                      outline: 'none',
+                      opacity: '0.9'
+                    }}
+                  />
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    marginTop: '4px'
+                  }}>
+                    <span style={{ fontSize: '11px', color: '#999' }}>500 kg</span>
+                    <span style={{ fontSize: '11px', color: '#999' }}>20.000 kg</span>
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => setStep(step + 1)}
+                  style={{
+                    width: '100%',
+                    padding: '16px',
+                    fontSize: '15px',
+                    fontWeight: '600',
+                    color: 'white',
+                    background: `linear-gradient(135deg, ${colors.marineGreen} 0%, ${colors.marineGreenDark} 100%)`,
+                    border: 'none',
+                    borderRadius: '12px',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 12px rgba(34, 197, 94, 0.25)',
+                    fontFamily: 'Quicksand, sans-serif'
+                  }}
+                  onMouseOver={(e) => e.target.style.transform = 'translateY(-1px)'}
+                  onMouseOut={(e) => e.target.style.transform = 'translateY(0)'}
+                >
+                  Volgende →
+                </button>
+              </div>
+            )}
+
+            {showResults && recommendation && (
+              <div>
+                <div style={{
+                  background: `linear-gradient(135deg, ${colors.deepseaBlue} 0%, #5555aa 100%)`,
+                  borderRadius: '20px',
+                  padding: '28px',
+                  color: 'white',
+                  textAlign: 'center',
+                  marginBottom: '24px'
+                }}>
+                  <p style={{
+                    fontSize: '11px',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.1em',
+                    opacity: 0.8,
+                    marginBottom: '4px'
+                  }}>
+                    Uw aanbeveling
+                  </p>
+                  <h3 style={{
+                    fontSize: '36px',
+                    fontWeight: '700',
+                    marginBottom: '24px',
+                    letterSpacing: '-0.02em'
+                  }}>
+                    {recommendation.motor}
+                  </h3>
+                  
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 1fr',
+                    gap: '12px',
+                    marginBottom: '24px'
+                  }}>
+                    <div style={{
+                      background: 'rgba(255,255,255,0.12)',
+                      borderRadius: '12px',
+                      padding: '14px',
+                      backdropFilter: 'blur(10px)'
+                    }}>
+                      <div style={{ fontSize: '10px', opacity: 0.7, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        Vermogen
+                      </div>
+                      <div style={{ fontSize: '22px', fontWeight: '600', marginTop: '4px' }}>
+                        {recommendation.motorPower} <span style={{ fontSize: '11px', fontWeight: '400' }}>kW</span>
+                      </div>
+                    </div>
+                    <div style={{
+                      background: 'rgba(255,255,255,0.12)',
+                      borderRadius: '12px',
+                      padding: '14px',
+                      backdropFilter: 'blur(10px)'
+                    }}>
+                      <div style={{ fontSize: '10px', opacity: 0.7, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        Batterij
+                      </div>
+                      <div style={{ fontSize: '22px', fontWeight: '600', marginTop: '4px' }}>
+                        {recommendation.batteryCapacity} <span style={{ fontSize: '11px', fontWeight: '400' }}>kWh</span>
+                      </div>
+                    </div>
+                    <div style={{
+                      background: 'rgba(255,255,255,0.12)',
+                      borderRadius: '12px',
+                      padding: '14px',
+                      backdropFilter: 'blur(10px)'
+                    }}>
+                      <div style={{ fontSize: '10px', opacity: 0.7, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        Vaartijd
+                      </div>
+                      <div style={{ fontSize: '22px', fontWeight: '600', marginTop: '4px' }}>
+                        {recommendation.estimatedCruisingTime} <span style={{ fontSize: '11px', fontWeight: '400' }}>uur</span>
+                      </div>
+                    </div>
+                    <div style={{
+                      background: 'rgba(255,255,255,0.12)',
+                      borderRadius: '12px',
+                      padding: '14px',
+                      backdropFilter: 'blur(10px)'
+                    }}>
+                      <div style={{ fontSize: '10px', opacity: 0.7, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        Snelheid
+                      </div>
+                      <div style={{ fontSize: '22px', fontWeight: '600', marginTop: '4px' }}>
+                        {recommendation.cruisingSpeed} <span style={{ fontSize: '11px', fontWeight: '400' }}>km/h</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <a
+                    href="https://www.greenmarinemotors.com/contact"
+                    target="_parent"
+                    style={{
+                      display: 'inline-block',
+                      width: '100%',
+                      padding: '16px',
+                      fontSize: '15px',
+                      fontWeight: '600',
+                      color: colors.charcoalBlack,
+                      background: `linear-gradient(135deg, #f59e0b 0%, #d97706 100%)`,
+                      border: 'none',
+                      borderRadius: '12px',
+                      cursor: 'pointer',
+                      boxShadow: '0 4px 16px rgba(245, 158, 11, 0.3)',
+                      textDecoration: 'none',
+                      fontFamily: 'Quicksand, sans-serif'
+                    }}
+                  >
+                    Ontvang een persoonlijke offerte →
+                  </a>
+                </div>
+
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  gap: '20px',
+                  marginTop: '24px',
+                  paddingTop: '20px',
+                  borderTop: `1px solid ${colors.lightGray}`,
+                  flexWrap: 'wrap'
+                }}>
+                  <span style={{ fontSize: '11px', color: '#666', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <span style={{ color: colors.marineGreen }}>✓</span> 5 jaar garantie
+                  </span>
+                  <span style={{ fontSize: '11px', color: '#666', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <span style={{ color: colors.marineGreen }}>✓</span> Made in Germany
+                  </span>
+                  <span style={{ fontSize: '11px', color: '#666', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <span style={{ color: colors.marineGreen }}>✓</span> Gratis advies
+                  </span>
+                </div>
+
+                <button
+                  onClick={() => {
+                    setShowResults(false);
+                    setStep(0);
+                    setFormData({
+                      customerType: '',
+                      boatType: '',
+                      boatLength: 6,
+                      boatWeight: 2000,
+                      currentDrive: '',
+                      waterType: '',
+                      tripDuration: ''
+                    });
+                  }}
+                  style={{
+                    marginTop: '24px',
+                    padding: '10px 0',
+                    fontSize: '13px',
+                    color: '#666',
+                    background: 'transparent',
+                    border: 'none',
+                    cursor: 'pointer',
+                    fontWeight: '500',
+                    width: '100%',
+                    fontFamily: 'Quicksand, sans-serif'
+                  }}
+                  onMouseOver={(e) => e.target.style.color = colors.deepseaBlue}
+                  onMouseOut={(e) => e.target.style.color = '#666'}
+                >
+                  ← Opnieuw berekenen
+                </button>
+              </div>
+            )}
+
+          </div>
+
+          {/* Footer */}
+          <div style={{
+            padding: '16px 28px',
+            borderTop: `1px solid ${colors.lightGray}`,
+            textAlign: 'center'
+          }}>
+            <p style={{ fontSize: '11px', color: '#888' }}>
+              Onze motor is 30% zuiniger dankzij direct-drive technologie
+            </p>
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.render(<GreenMarineCalculator />, document.getElementById('root'));
+  </script>
+</body>
+</html>

@@ -16,7 +16,7 @@
 | boatType | Text | sloep, zeilboot, motorboot, etc. |
 | boatLength | Number | Meters |
 | boatWeight | Number | Kilograms |
-| currentDrive | Text | geen / binnenboord |
+| currentDrive | Text | buitenboord / binnenboord |
 | waterType | Text | binnenwater / kustwater / beide |
 | tripDuration | Text | 2-4 / 4-8 / 8+ |
 | recommendedMotor | Text | e.g., GM 6kW |
@@ -65,7 +65,7 @@ Use the **Add** panel to drag elements onto your page. Set their **IDs** exactly
 - Container ID: `step4Container` (initially hidden)
   - Text: "Huidige aandrijving"
   - Dropdown ID: `currentDriveDropdown`
-    - Options: Geen motor, Binnenboord
+    - Options: Buitenboord, Binnenboord
 
 ### **Step 5: Water Type Container**
 - Container ID: `step5Container` (initially hidden)

@@ -8,7 +8,7 @@ import React, { useState, useEffect } from 'react';
 // Features:
 // - Cruising speed calculation (70% of hull speed)
 // - Boat types from website form (sloep, zeilboot, motorboot, speedboot, werkboot, anders)
-// - Drive types: geen/binnenboord (buitenboord removed)
+// - Drive types: buitenboord/binnenboord (geen motor removed)
 // - Time ranges: 2-4, 4-8, 8+ uur (0-2 removed)
 // - Prominent results with motor recommendation
 // - USPs from website
@@ -158,7 +158,7 @@ export default function GreenMarineCalculator() {
       title: 'Huidige aandrijving',
       subtitle: 'Wat voor motor heeft uw boot nu?',
       options: [
-        { value: 'geen', label: 'Geen motor' },
+        { value: 'buitenboord', label: 'Buitenboord' },
         { value: 'binnenboord', label: 'Binnenboord' }
       ],
       hasIcons: false

@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Green Marine Motors - Premium Caribbean Fresh Redesign</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    :root {
+      --ocean-cyan: #0e7490;
+      --ocean-cyan-light: #0891b2;
+      --ocean-cyan-dark: #0c5c72;
+      --nature-green: #22c55e;
+      --nature-green-dark: #16a34a;
+      --sunset-gold: #f59e0b;
+      --sunset-gold-dark: #d97706;
+      --deep-navy: #1e3a4c;
+      --soft-navy: #2d4a5e;
+      --muted-text: #64748b;
+      --sea-mist: #f0fdfa;
+      --sky-light: #e0f2fe;
+      --pure-white: #ffffff;
+      --warm-sand: #fef9e7;
+      --border-light: rgba(14, 116, 144, 0.12);
+      --border-medium: rgba(14, 116, 144, 0.2);
+    }
+    
+    body { 
+      font-family: 'Outfit', sans-serif; 
+      font-weight: 300;
+      background: linear-gradient(180deg, var(--sea-mist) 0%, var(--sky-light) 50%, #f8fafc 100%);
+      min-height: 100vh;
+      color: var(--deep-navy);
+      line-height: 1.5;
+    }
+    
+    /* ========== REVIEWS TICKER (allerbovenaan) ========== */
+    .reviews-ticker-fixed {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      padding: 8px 0;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .reviews-scroll-compact {
+      display: flex;
+      gap: 50px;
+      animation: scroll-reviews 35s linear infinite;
+      white-space: nowrap;
+    }
+    
+    @keyframes scroll-reviews {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    
+    .review-compact {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.85);
+      flex-shrink: 0;
+    }
+    
+    .gold-stars {
+      color: var(--sunset-gold);
+      font-size: 11px;
+      letter-spacing: 0.5px;
+    }
+    
+    /* ========== TOP BAR ========== */
+    .top-bar {
+      background: var(--pure-white);
+      border-bottom: 1px solid var(--border-light);
+      padding: 8px 20px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    
+    .top-bar.hidden {
+      transform: translateY(-100%);
+      opacity: 0;
+      position: absolute;
+    }
+    
+    .top-bar-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .zakelijk-link {
+      font-size: 12px;
+      color: var(--muted-text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    
+    .zakelijk-link:hover {
+      color: var(--ocean-cyan);
+    }
+    
+    .language-selector {
+      position: relative;
+    }
+    
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      border: 1px solid var(--border-light);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--deep-navy);
+      cursor: pointer;
+      font-family: inherit;
+      transition: border-color 0.2s ease;
+    }
+    
+    .lang-toggle:hover {
+      border-color: var(--ocean-cyan);
+    }
+    
+    .lang-toggle .flag {
+      font-size: 14px;
+    }
+    
+    .lang-toggle .arrow {
+      font-size: 10px;
+      color: var(--muted-text);
+    }
+    
+    .lang-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      margin-top: 4px;
+      background: var(--pure-white);
+      border: 1px solid var(--border-light);
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      min-width: 160px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+      transition: all 0.2s ease;
+      z-index: 200;
+    }
+    
+    .lang-dropdown.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    
+    .lang-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--deep-navy);
+      text-decoration: none;
+      transition: background 0.2s ease;
+    }
+    
+    .lang-option:first-child {
+      border-radius: 10px 10px 0 0;
+    }
+    
+    .lang-option:last-child {
+      border-radius: 0 0 10px 10px;
+    }
+    
+    .lang-option:hover {
+      background: var(--sea-mist);
+    }
+    
+    .lang-option.active {
+      color: var(--ocean-cyan);
+      font-weight: 500;
+    }
+    
+    .lang-option .flag {
+      font-size: 16px;
+    }
+    
+    /* ========== STICKY BAR ========== */
+    .sticky-bar {
+      background: linear-gradient(135deg, var(--ocean-cyan) 0%, var(--ocean-cyan-dark) 100%);
+      padding: 12px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 20px rgba(14, 116, 144, 0.15);
+    }
+    
+    .sticky-bar-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    
+    .logo-text {
+      font-size: 18px;
+      font-weight: 600;
+      color: white;
+      letter-spacing: -0.02em;
+    }
+    
+    .logo-text span {
+      font-weight: 400;
+    }
+    
+    .review-ticker {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      overflow: hidden;
+    }
+    
+    .stars {
+      color: var(--sunset-gold);
+      font-size: 12px;
+      letter-spacing: 2px;
+    }
+    
+    .review-text {
+      font-size: 13px;
+      color: rgba(255,255,255,0.9);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .review-text .author {
+      opacity: 0.7;
+    }
+    
+    .cta-phone {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--sunset-gold) 0%, var(--sunset-gold-dark) 100%);
+      color: var(--deep-navy);
+      padding: 10px 16px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+      transition: transform 0.2s ease;
+      flex-shrink: 0;
+    }
+    
+    .cta-phone:hover {
+      transform: translateY(-1px);
+    }
+    
+    /* Main Navigation */
+    .main-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .nav-link {
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+    
+    .nav-link:hover {
+      color: white;
+      background: rgba(255,255,255,0.1);
+    }
+    
+    .nav-link.active {
+      color: var(--sunset-gold);
+    }
+    
+    /* ========== HERO ========== */
+    .hero {
+      padding: 15px 20px 30px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      min-height: calc(100vh - 140px);
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .hero-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 0;
+    }
+    
+    .hero h1 {
+      font-size: clamp(24px, 5vw, 34px);
+      font-weight: 600;
+      color: var(--deep-navy);
+      line-height: 1.15;
+      margin-bottom: 12px;
+      letter-spacing: -0.03em;
+    }
+    
+    .hero h1 .gradient-text {
+      background: linear-gradient(135deg, var(--ocean-cyan) 0%, var(--nature-green) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .hero-story {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--soft-navy);
+      line-height: 1.7;
+      max-width: 340px;
+      margin: 0 auto 16px;
+    }
+    
+    .gold-accent-line {
+      width: 50px;
+      height: 1.5px;
+      background: linear-gradient(90deg, transparent, var(--sunset-gold), transparent);
+      margin: 0 auto 16px;
+    }
+    
+    /* ========== PROMINENT CTA BLOCK ========== */
+    .hero-cta-block {
+      background: linear-gradient(135deg, var(--nature-green) 0%, var(--nature-green-dark) 100%);
+      border-radius: 20px;
+      padding: 28px 36px;
+      box-shadow: 0 8px 32px rgba(34, 197, 94, 0.35);
+      text-align: center;
+      max-width: 340px;
+      width: 100%;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+    }
+    
+    .hero-cta-block:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(34, 197, 94, 0.4);
+    }
+    
+    .cta-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 14px;
+      line-height: 1.3;
+    }
+    
+    .cta-usps {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 12px;
+    }
+    
+    .cta-usp {
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.9);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .cta-usp-icon {
+      width: 16px;
+      height: 16px;
+      animation: float-small 3s ease-in-out infinite;
+    }
+    
+    .cta-usp:nth-child(1) .cta-usp-icon { animation-delay: 0s; }
+    .cta-usp:nth-child(2) .cta-usp-icon { animation-delay: 0.4s; }
+    .cta-usp:nth-child(3) .cta-usp-icon { animation-delay: 0.8s; }
+    
+    @keyframes float-small {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-2px); }
+    }
+    
+    .cta-time {
+      font-size: 13px;
+      color: rgba(255,255,255,0.95);
+      font-weight: 500;
+      margin-top: 10px;
+      display: block;
+    }
+    
+    /* ========== TRUST BANNER ========== */
+    .trust-banner {
+      background: linear-gradient(135deg, var(--warm-sand) 0%, #fef3c7 100%);
+      padding: 20px;
+      text-align: center;
+      border-top: 1px solid rgba(245, 158, 11, 0.2);
+      border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+    }
+    
+    .trust-items {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .trust-item {
+      font-size: 13px;
+      color: var(--soft-navy);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .trust-item .star {
+      color: var(--sunset-gold);
+    }
+    
+    /* ========== CALCULATOR ========== */
+    .calculator-section {
+      padding: 60px 20px;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    
+    .calculator {
+      background: var(--pure-white);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 4px 40px rgba(14, 116, 144, 0.08), 0 0 0 1px var(--border-light);
+      position: relative;
+    }
+    
+    .calculator-header {
+      background: linear-gradient(135deg, var(--ocean-cyan) 0%, var(--ocean-cyan-light) 100%);
+      padding: 28px 28px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .calculator-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 30px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120'%3E%3Cpath d='M0,60 C300,100 600,20 1200,60 L1200,120 L0,120 Z' fill='white' fill-opacity='0.1'/%3E%3C/svg%3E");
+      background-size: cover;
+    }
+    
+    .calculator-header .logo {
+      margin-bottom: 20px;
+    }
+    
+    .calculator-header h2 {
+      font-size: 22px;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+    
+    .calculator-header p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.8);
+    }
+    
+    .progress-bar-container {
+      padding: 16px 28px 12px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    
+    .progress-info span {
+      font-size: 12px;
+      font-weight: 500;
+    }
+    
+    .progress-info .step {
+      color: var(--muted-text);
+    }
+    
+    .progress-info .percent {
+      color: var(--ocean-cyan);
+    }
+    
+    .progress-bar {
+      height: 3px;
+      background: var(--sky-light);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--ocean-cyan) 0%, var(--nature-green) 100%);
+      border-radius: 2px;
+      transition: width 0.4s ease;
+    }
+    
+    .calculator-content {
+      padding: 28px;
+    }
+    
+    .calculator-content h3 {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--deep-navy);
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+    
+    .calculator-content .subtitle {
+      font-size: 14px;
+      color: var(--muted-text);
+      margin-bottom: 24px;
+    }
+    
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .option-button {
+      padding: 16px 20px;
+      background: var(--pure-white);
+      border: 1.5px solid var(--border-medium);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-align: left;
+      font-family: inherit;
+    }
+    
+    .option-button:hover {
+      border-color: var(--ocean-cyan);
+      background: var(--sea-mist);
+    }
+    
+    .option-button.selected {
+      background: var(--ocean-cyan);
+      border-color: var(--ocean-cyan);
+    }
+    
+    .option-button .label {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--deep-navy);
+    }
+    
+    .option-button.selected .label {
+      color: white;
+    }
+    
+    .option-button .desc {
+      font-size: 12px;
+      color: var(--muted-text);
+      margin-top: 2px;
+    }
+    
+    .option-button.selected .desc {
+      color: rgba(255,255,255,0.7);
+    }
+    
+    .option-check {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid var(--border-medium);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+    
+    .option-button.selected .option-check {
+      background: var(--nature-green);
+      border-color: rgba(255,255,255,0.5);
+    }
+    
+    /* Slider inputs */
+    .slider-group {
+      margin-bottom: 32px;
+    }
+    
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 16px;
+    }
+    
+    .slider-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted-text);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .slider-value {
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--deep-navy);
+      letter-spacing: -0.02em;
+    }
+    
+    .slider-value .unit {
+      font-size: 14px;
+      color: var(--muted-text);
+      margin-left: 4px;
+    }
+    
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      outline: none;
+      background: var(--sky-light);
+    }
+    
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--ocean-cyan-light) 0%, var(--ocean-cyan) 100%);
+      cursor: pointer;
+      border: 3px solid white;
+      box-shadow: 0 2px 8px rgba(14, 116, 144, 0.3);
+      transition: transform 0.2s ease;
+    }
+    
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.1);
+    }
+    
+    .slider-range {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--muted-text);
+    }
+    
+    .btn-primary {
+      width: 100%;
+      padding: 16px;
+      font-size: 15px;
+      font-weight: 600;
+      color: white;
+      background: linear-gradient(135deg, var(--nature-green) 0%, var(--nature-green-dark) 100%);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.25);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      font-family: inherit;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(34, 197, 94, 0.3);
+    }
+    
+    .btn-back {
+      margin-top: 20px;
+      padding: 10px 0;
+      font-size: 13px;
+      color: var(--muted-text);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      font-family: inherit;
+    }
+    
+    .btn-back:hover {
+      color: var(--ocean-cyan);
+    }
+    
+    /* Result card */
+    .result-card {
+      background: linear-gradient(135deg, var(--ocean-cyan) 0%, var(--ocean-cyan-light) 100%);
+      border-radius: 20px;
+      padding: 28px;
+      color: white;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .result-card::before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, transparent 60%);
+      border-radius: 50%;
+    }
+    
+    .result-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      opacity: 0.8;
+      margin-bottom: 4px;
+    }
+    
+    .result-motor {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+    
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    
+    .result-stat {
+      background: rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 14px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .result-stat .stat-label {
+      font-size: 10px;
+      opacity: 0.7;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .result-stat .stat-value {
+      font-size: 22px;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+    
+    .result-stat .stat-unit {
+      font-size: 11px;
+      font-weight: 400;
+    }
+    
+    .btn-gold {
+      width: 100%;
+      padding: 16px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--deep-navy);
+      background: linear-gradient(135deg, var(--sunset-gold) 0%, var(--sunset-gold-dark) 100%);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(245, 158, 11, 0.3);
+      transition: transform 0.2s ease;
+      font-family: inherit;
+    }
+    
+    .btn-gold:hover {
+      transform: translateY(-2px);
+    }
+    
+    .trust-footer {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-light);
+      flex-wrap: wrap;
+    }
+    
+    .trust-footer span {
+      font-size: 11px;
+      color: var(--muted-text);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .trust-footer .check {
+      color: var(--nature-green);
+    }
+    
+    .calculator-footer {
+      padding: 16px 28px;
+      border-top: 1px solid var(--border-light);
+      text-align: center;
+    }
+    
+    .calculator-footer p {
+      font-size: 11px;
+      color: var(--muted-text);
+    }
+    
+    /* ========== USP SECTION ========== */
+    .usp-section {
+      padding: 40px 20px 60px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    .usp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    
+    .usp-card {
+      background: var(--pure-white);
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid var(--border-light);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .usp-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(14, 116, 144, 0.08);
+    }
+    
+    .usp-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+    
+    .usp-card h4 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--deep-navy);
+      margin-bottom: 6px;
+    }
+    
+    .usp-card p {
+      font-size: 13px;
+      color: var(--muted-text);
+      line-height: 1.5;
+    }
+    
+    /* ========== FOOTER ========== */
+    .footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted-text);
+      font-size: 13px;
+    }
+    
+    .footer .logo {
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+    
+    .footer .logo-text {
+      color: var(--ocean-cyan);
+    }
+    
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 900px) {
+      .main-nav {
+        display: none;
+      }
+      
+      .top-bar-inner {
+        justify-content: flex-end;
+        gap: 16px;
+      }
+      
+      .zakelijk-link {
+        margin-right: auto;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .trust-items {
+        gap: 16px;
+      }
+      
+      .hero-usps {
+        gap: 8px;
+      }
+      
+      .usp-pill {
+        padding: 10px 16px;
+        font-size: 13px;
+      }
+      
+      .result-grid {
+        gap: 8px;
+      }
+      
+      .trust-footer {
+        gap: 12px;
+      }
+      
+      .reviews-label {
+        display: none;
+      }
+    }
+    
+    /* ========== STEP VISIBILITY ========== */
+    .step-content {
+      display: none;
+    }
+    
+    .step-content.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. GOOGLE REVIEWS TICKER (allerbovenaan, altijd zichtbaar) -->
+  <div class="reviews-ticker-fixed">
+    <div class="reviews-scroll-compact">
+      <span class="review-compact"><span class="gold-stars">★★★★★</span> "Eindelijk stil genieten" — Johan</span>
+      <span class="review-compact"><span class="gold-stars">★★★★★</span> "Fantastisch advies" — Marieke</span>
+      <span class="review-compact"><span class="gold-stars">★★★★★</span> "Super tevreden" — Peter</span>
+      <span class="review-compact"><span class="gold-stars">★★★★★</span> "Professionele service" — Erik</span>
+      <span class="review-compact"><span class="gold-stars">★★★★★</span> "De toekomst van varen" — Anna</span>
+      <span class="review-compact"><span class="gold-stars">★★★★★</span> "Eindelijk stil genieten" — Johan</span>
+      <span class="review-compact"><span class="gold-stars">★★★★★</span> "Fantastisch advies" — Marieke</span>
+    </div>
+  </div>
+
+  <!-- 2. STICKY BAR (logo, menu, telefoon) -->
+  <header class="sticky-bar">
+    <div class="sticky-bar-inner">
+      <a href="#" class="logo">
+        <svg width="36" height="36" viewBox="0 0 100 100">
+          <path d="M50 15 L75 55 L50 50 L25 55 Z" fill="#22c55e" opacity="0.9"/>
+          <path d="M50 35 L70 65 L50 62 L30 65 Z" fill="#22c55e" opacity="0.7"/>
+          <path d="M50 50 L65 75 L50 73 L35 75 Z" fill="#22c55e" opacity="0.5"/>
+        </svg>
+        <span class="logo-text">green <span>marine</span></span>
+      </a>
+      
+      <nav class="main-nav">
+        <a href="#" class="nav-link">Over ons</a>
+        <a href="#" class="nav-link">Nieuws</a>
+        <a href="#" class="nav-link">Motor</a>
+        <a href="#" class="nav-link">Visie</a>
+        <a href="#" class="nav-link">Contact</a>
+      </nav>
+      
+      <a href="tel:+31752340007" class="cta-phone">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- 3. UTILITY BAR - Zakelijk & Taal (verdwijnt bij scrollen) -->
+  <div class="top-bar" id="topBar">
+    <div class="top-bar-inner">
+      <a href="#" class="zakelijk-link">Voor zakelijk →</a>
+      <div class="language-selector">
+        <button class="lang-toggle" onclick="toggleLangMenu()">
+          <span class="flag">🇳🇱</span> NL <span class="arrow">▾</span>
+        </button>
+        <div class="lang-dropdown" id="langDropdown">
+          <a href="#" class="lang-option active"><span class="flag">🇳🇱</span> Nederlands</a>
+          <a href="#" class="lang-option"><span class="flag">🇬🇧</span> English</a>
+          <a href="#" class="lang-option"><span class="flag">🇩🇪</span> Deutsch</a>
+          <a href="#" class="lang-option"><span class="flag">🇸🇪</span> Svenska</a>
+          <a href="#" class="lang-option"><span class="flag">🇩🇰</span> Dansk</a>
+          <a href="#" class="lang-option"><span class="flag">🇫🇷</span> Français</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO - Compact, above the fold -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>
+        Geniet zorgeloos<br>
+        <span class="gradient-text">op het water</span>
+      </h1>
+      
+      <p class="hero-story">
+        Meer genieten van je kostbare momenten op het water. 
+        Wij begrijpen dat gevoel — en maken het graag mogelijk.
+      </p>
+      
+      <!-- Gold accent line -->
+      <div class="gold-accent-line"></div>
+      
+      <!-- Prominent CTA Block -->
+      <a href="#calculator" class="hero-cta-block">
+        <div class="cta-title">Ontdek welke motor<br>bij jou past</div>
+        <span class="cta-time">Start de calculator · 2 min</span>
+        <div class="cta-usps">
+          <span class="cta-usp">
+            <svg class="cta-usp-icon" viewBox="0 0 100 100">
+              <path d="M50 10 L90 80 Q90 90 80 90 L20 90 Q10 90 10 80 Z" fill="none" stroke="currentColor" stroke-width="6"/>
+            </svg>
+            Duurzaam
+          </span>
+          <span class="cta-usp">
+            <svg class="cta-usp-icon" viewBox="0 0 100 100">
+              <path d="M50 10 L90 80 Q90 90 80 90 L20 90 Q10 90 10 80 Z" fill="none" stroke="currentColor" stroke-width="6"/>
+            </svg>
+            Stil
+          </span>
+          <span class="cta-usp">
+            <svg class="cta-usp-icon" viewBox="0 0 100 100">
+              <path d="M50 10 L90 80 Q90 90 80 90 L20 90 Q10 90 10 80 Z" fill="none" stroke="currentColor" stroke-width="6"/>
+            </svg>
+            Zorgeloos
+          </span>
+        </div>
+      </a>
+    </div>
+    
+  </section>
+
+  <!-- TRUST BANNER - now secondary -->
+  <div class="trust-banner">
+    <div class="trust-items">
+      <span class="trust-item"><span class="star">★</span> Made in Germany</span>
+      <span class="trust-item"><span class="star">★</span> Assembled in NL</span>
+      <span class="trust-item"><span class="star">★</span> Boten van 5–50 meter</span>
+    </div>
+  </div>
+
+  <!-- CALCULATOR -->
+  <section class="calculator-section" id="calculator">
+    <div class="calculator">
+      <div class="calculator-header">
+        <div class="logo">
+          <svg width="36" height="36" viewBox="0 0 100 100">
+            <path d="M50 15 L75 55 L50 50 L25 55 Z" fill="#22c55e" opacity="0.9"/>
+            <path d="M50 35 L70 65 L50 62 L30 65 Z" fill="#22c55e" opacity="0.7"/>
+            <path d="M50 50 L65 75 L50 73 L35 75 Z" fill="#22c55e" opacity="0.5"/>
+          </svg>
+          <span class="logo-text" style="color: white;">green <span>marine</span></span>
+        </div>
+        <h2>Ontdek uw perfecte motor</h2>
+        <p>In 2 minuten een persoonlijke aanbeveling</p>
+      </div>
+      
+      <div class="progress-bar-container" id="progressContainer">
+        <div class="progress-info">
+          <span class="step" id="stepText">Stap 1 van 4</span>
+          <span class="percent" id="percentText">25%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill" style="width: 25%"></div>
+        </div>
+      </div>
+      
+      <div class="calculator-content">
+        
+        <!-- Step 1: Customer Type -->
+        <div class="step-content active" id="step1">
+          <h3>Welkom</h3>
+          <p class="subtitle">Bent u particulier of zakelijk?</p>
+          <div class="options-list">
+            <button class="option-button" onclick="selectOption(1, 'particulier', this)">
+              <div>
+                <div class="label">Particulier</div>
+                <div class="desc">Voor privégebruik</div>
+              </div>
+              <div class="option-check">
+                <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                  <path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </button>
+            <button class="option-button" onclick="selectOption(1, 'zakelijk', this)">
+              <div>
+                <div class="label">Zakelijk</div>
+                <div class="desc">Voor uw onderneming</div>
+              </div>
+              <div class="option-check">
+                <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                  <path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Step 2: Boat Type -->
+        <div class="step-content" id="step2">
+          <h3>Uw boot</h3>
+          <p class="subtitle">Wat voor type boot heeft u?</p>
+          <div class="options-list">
+            <button class="option-button" onclick="selectOption(2, 'sloep', this)">
+              <div><div class="label">Sloep</div></div>
+              <div class="option-check"></div>
+            </button>
+            <button class="option-button" onclick="selectOption(2, 'zeilboot', this)">
+              <div><div class="label">Zeilboot</div></div>
+              <div class="option-check"></div>
+            </button>
+            <button class="option-button" onclick="selectOption(2, 'motorboot', this)">
+              <div><div class="label">Motorboot</div></div>
+              <div class="option-check"></div>
+            </button>
+            <button class="option-button" onclick="selectOption(2, 'anders', this)">
+              <div><div class="label">Anders</div></div>
+              <div class="option-check"></div>
+            </button>
+          </div>
+          <button class="btn-back" onclick="goToStep(1)">← Terug</button>
+        </div>
+        
+        <!-- Step 3: Specifications -->
+        <div class="step-content" id="step3">
+          <h3>Specificaties</h3>
+          <p class="subtitle">Vertel ons meer over uw boot</p>
+          
+          <div class="slider-group">
+            <div class="slider-header">
+              <span class="slider-label">Lengte waterlijn</span>
+              <div class="slider-value"><span id="lengthValue">8</span><span class="unit">m</span></div>
+            </div>
+            <input type="range" min="3" max="20" step="0.5" value="8" id="lengthSlider" oninput="updateLength(this.value)">
+            <div class="slider-range">
+              <span>3m</span>
+              <span>20m</span>
+            </div>
+          </div>
+          
+          <div class="slider-group">
+            <div class="slider-header">
+              <span class="slider-label">Waterverplaatsing</span>
+              <div class="slider-value"><span id="weightValue">3.000</span><span class="unit">kg</span></div>
+            </div>
+            <input type="range" min="500" max="20000" step="100" value="3000" id="weightSlider" oninput="updateWeight(this.value)">
+            <div class="slider-range">
+              <span>500 kg</span>
+              <span>20.000 kg</span>
+            </div>
+          </div>
+          
+          <button class="btn-primary" onclick="goToStep(4)">Volgende →</button>
+          <button class="btn-back" onclick="goToStep(2)">← Terug</button>
+        </div>
+        
+        <!-- Step 4: Trip Duration -->
+        <div class="step-content" id="step4">
+          <h3>Vaargedrag</h3>
+          <p class="subtitle">Hoe lang vaart u gemiddeld per tocht?</p>
+          <div class="options-list">
+            <button class="option-button" onclick="selectOption(4, '2-4', this)">
+              <div>
+                <div class="label">2–4 uur</div>
+                <div class="desc">Korte dagtocht</div>
+              </div>
+              <div class="option-check"></div>
+            </button>
+            <button class="option-button" onclick="selectOption(4, '4-8', this)">
+              <div>
+                <div class="label">4–8 uur</div>
+                <div class="desc">Volledige dag</div>
+              </div>
+              <div class="option-check"></div>
+            </button>
+            <button class="option-button" onclick="selectOption(4, '8+', this)">
+              <div>
+                <div class="label">8+ uur</div>
+                <div class="desc">Lange tochten</div>
+              </div>
+              <div class="option-check"></div>
+            </button>
+          </div>
+          <button class="btn-back" onclick="goToStep(3)">← Terug</button>
+        </div>
+        
+        <!-- Results -->
+        <div class="step-content" id="results">
+          <div class="result-card">
+            <p class="result-label">Uw aanbeveling</p>
+            <h3 class="result-motor" id="resultMotor">GM 6kW</h3>
+            <div class="result-grid">
+              <div class="result-stat">
+                <div class="stat-label">Vermogen</div>
+                <div class="stat-value"><span id="resultPower">6</span> <span class="stat-unit">kW</span></div>
+              </div>
+              <div class="result-stat">
+                <div class="stat-label">Batterij</div>
+                <div class="stat-value"><span id="resultBattery">20</span> <span class="stat-unit">kWh</span></div>
+              </div>
+              <div class="result-stat">
+                <div class="stat-label">Vaartijd</div>
+                <div class="stat-value"><span id="resultTime">6.5</span> <span class="stat-unit">uur</span></div>
+              </div>
+              <div class="result-stat">
+                <div class="stat-label">Snelheid</div>
+                <div class="stat-value"><span id="resultSpeed">7.7</span> <span class="stat-unit">km/h</span></div>
+              </div>
+            </div>
+            <button class="btn-gold">Ontvang een persoonlijke offerte →</button>
+          </div>
+          
+          <div class="trust-footer">
+            <span><span class="check">✓</span> 5 jaar garantie</span>
+            <span><span class="check">✓</span> Made in Germany</span>
+            <span><span class="check">✓</span> Gratis advies</span>
+          </div>
+          
+          <button class="btn-back" onclick="resetCalculator()" style="width: 100%; text-align: center;">← Opnieuw berekenen</button>
+        </div>
+        
+      </div>
+      
+      <div class="calculator-footer" id="calcFooter">
+        <p>Onze motor is 30% zuiniger dankzij direct-drive technologie</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- USP SECTION -->
+  <section class="usp-section">
+    <div class="usp-grid">
+      <div class="usp-card">
+        <div class="usp-icon">⚡</div>
+        <h4>Direct-drive technologie</h4>
+        <p>30% zuiniger dan standaard elektrisch</p>
+      </div>
+      <div class="usp-card">
+        <div class="usp-icon">🔇</div>
+        <h4>Oorverdovend stil</h4>
+        <p>Geniet van de natuur, niet van motorgeraas</p>
+      </div>
+      <div class="usp-card">
+        <div class="usp-icon">🛡️</div>
+        <h4>5 jaar garantie</h4>
+        <p>Gebouwd voor langdurig plezier</p>
+      </div>
+      <div class="usp-card">
+        <div class="usp-icon">🌿</div>
+        <h4>100% uitstootvrij</h4>
+        <p>Welkom in alle wateren</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="logo">
+      <svg width="36" height="36" viewBox="0 0 100 100">
+        <path d="M50 15 L75 55 L50 50 L25 55 Z" fill="#22c55e" opacity="0.9"/>
+        <path d="M50 35 L70 65 L50 62 L30 65 Z" fill="#22c55e" opacity="0.7"/>
+        <path d="M50 50 L65 75 L50 73 L35 75 Z" fill="#22c55e" opacity="0.5"/>
+      </svg>
+      <span class="logo-text">green <span>marine</span></span>
+    </div>
+    <p>© 2025 Green Marine Motors · Duurzaam varen begint hier</p>
+  </footer>
+
+  <script>
+    // State
+    let currentStep = 1;
+    let formData = {
+      customerType: '',
+      boatType: '',
+      boatLength: 8,
+      boatWeight: 3000,
+      tripDuration: ''
+    };
+    
+    const motors = [
+      { name: 'GM 2kW', power: 2, maxWeight: 1500, batteryOptions: [5, 10] },
+      { name: 'GM 4kW', power: 4, maxWeight: 3000, batteryOptions: [10, 15, 20] },
+      { name: 'GM 6kW', power: 6, maxWeight: 5000, batteryOptions: [15, 20, 30] },
+      { name: 'GM 10kW', power: 10, maxWeight: 8000, batteryOptions: [20, 30, 40] },
+      { name: 'GM 16kW', power: 16, maxWeight: 12000, batteryOptions: [30, 40, 50] },
+      { name: 'GM 25kW', power: 25, maxWeight: 20000, batteryOptions: [40, 50, 60] }
+    ];
+    
+    function goToStep(step) {
+      document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+      
+      if (step === 'results') {
+        document.getElementById('results').classList.add('active');
+        document.getElementById('progressContainer').style.display = 'none';
+        document.getElementById('calcFooter').style.display = 'none';
+        calculateResults();
+      } else {
+        document.getElementById('step' + step).classList.add('active');
+        document.getElementById('progressContainer').style.display = 'block';
+        document.getElementById('calcFooter').style.display = 'block';
+        currentStep = step;
+        updateProgress();
+      }
+    }
+    
+    function selectOption(step, value, btn) {
+      if (step === 1) formData.customerType = value;
+      if (step === 2) formData.boatType = value;
+      if (step === 4) formData.tripDuration = value;
+      
+      const container = document.getElementById('step' + step);
+      container.querySelectorAll('.option-button').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      
+      setTimeout(() => {
+        if (step < 4) {
+          goToStep(step + 1);
+        } else {
+          goToStep('results');
+        }
+      }, 250);
+    }
+    
+    function updateProgress() {
+      const percent = (currentStep / 4) * 100;
+      document.getElementById('stepText').textContent = 'Stap ' + currentStep + ' van 4';
+      document.getElementById('percentText').textContent = Math.round(percent) + '%';
+      document.getElementById('progressFill').style.width = percent + '%';
+    }
+    
+    function updateLength(value) {
+      formData.boatLength = parseFloat(value);
+      document.getElementById('lengthValue').textContent = value;
+    }
+    
+    function updateWeight(value) {
+      formData.boatWeight = parseInt(value);
+      document.getElementById('weightValue').textContent = parseInt(value).toLocaleString('nl-NL');
+    }
+    
+    function calculateResults() {
+      const length = formData.boatLength;
+      const weight = formData.boatWeight;
+      const durationMap = { '2-4': 3, '4-8': 6, '8+': 10 };
+      const desiredHours = durationMap[formData.tripDuration] || 6;
+      
+      const maxHullSpeed = 4.5 * Math.sqrt(length);
+      const cruisingSpeed = maxHullSpeed * 0.7;
+      const displacementTons = weight / 1000;
+      const cruisingSpeedKnots = cruisingSpeed / 1.852;
+      let requiredPower = Math.pow(displacementTons, 0.67) * Math.pow(cruisingSpeedKnots, 3) / 150;
+      requiredPower = requiredPower * 1.3;
+      
+      const motor = motors.find(m => m.power >= requiredPower && m.maxWeight >= weight) || motors[motors.length - 1];
+      const batteryCapacity = requiredPower * desiredHours;
+      const battery = motor.batteryOptions.find(b => b >= batteryCapacity) || motor.batteryOptions[motor.batteryOptions.length - 1];
+      const cruisingTime = battery / requiredPower;
+      
+      document.getElementById('resultMotor').textContent = motor.name;
+      document.getElementById('resultPower').textContent = motor.power;
+      document.getElementById('resultBattery').textContent = battery;
+      document.getElementById('resultTime').textContent = cruisingTime.toFixed(1);
+      document.getElementById('resultSpeed').textContent = cruisingSpeed.toFixed(1);
+    }
+    
+    function resetCalculator() {
+      currentStep = 1;
+      formData = { customerType: '', boatType: '', boatLength: 8, boatWeight: 3000, tripDuration: '' };
+      
+      document.getElementById('lengthSlider').value = 8;
+      document.getElementById('weightSlider').value = 3000;
+      document.getElementById('lengthValue').textContent = '8';
+      document.getElementById('weightValue').textContent = '3.000';
+      
+      document.querySelectorAll('.option-button').forEach(btn => btn.classList.remove('selected'));
+      
+      goToStep(1);
+    }
+    
+    // Language dropdown toggle
+    function toggleLangMenu() {
+      document.getElementById('langDropdown').classList.toggle('open');
+    }
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.language-selector')) {
+        document.getElementById('langDropdown').classList.remove('open');
+      }
+    });
+    
+    // Hide top bar on scroll
+    let lastScroll = 0;
+    window.addEventListener('scroll', function() {
+      const topBar = document.getElementById('topBar');
+      const currentScroll = window.pageYOffset;
+      
+      if (currentScroll > 50) {
+        topBar.classList.add('hidden');
+      } else {
+        topBar.classList.remove('hidden');
+      }
+      
+      lastScroll = currentScroll;
+    });
+  </script>
+</body>
+</html>

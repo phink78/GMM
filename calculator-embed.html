@@ -43,9 +43,16 @@
         boatWeight: 2000,
         currentDrive: '',
         waterType: '',
-        tripDuration: ''
+        tripDuration: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: ''
       });
       const [showResults, setShowResults] = useState(false);
+      const [showContactForm, setShowContactForm] = useState(false);
+      const [formError, setFormError] = useState('');
+      const [showSuccess, setShowSuccess] = useState(false);
 
       const motors = [
         { name: 'GM 2kW', power: 2, maxWeight: 1500, batteryOptions: [5, 10] },
@@ -152,6 +159,39 @@
             setShowResults(true);
           }
         }, 300);
+      };
+
+      const handleContactSubmit = (e) => {
+        e.preventDefault();
+        setFormError('');
+
+        // Validation
+        if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone) {
+          setFormError('Vul alle velden in');
+          return;
+        }
+
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(formData.email)) {
+          setFormError('Ongeldig e-mailadres');
+          return;
+        }
+
+        // Send data to parent window (Wix)
+        const leadData = {
+          ...formData,
+          recommendation: calculateRecommendation(),
+          timestamp: new Date().toISOString()
+        };
+
+        // PostMessage to Wix
+        window.parent.postMessage({
+          type: 'GREEN_MARINE_LEAD',
+          data: leadData
+        }, '*');
+
+        setShowSuccess(true);
       };
 
       const currentStep = steps[step];
@@ -499,9 +539,8 @@
                     </div>
                   </div>
                   
-                  <a
-                    href="https://www.greenmarinemotors.com/contact"
-                    target="_parent"
+                  <button
+                    onClick={() => setShowContactForm(true)}
                     style={{
                       display: 'inline-block',
                       width: '100%',
@@ -517,9 +556,11 @@
                       textDecoration: 'none',
                       fontFamily: 'Quicksand, sans-serif'
                     }}
+                    onMouseOver={(e) => e.target.style.transform = 'translateY(-2px)'}
+                    onMouseOut={(e) => e.target.style.transform = 'translateY(0)'}
                   >
                     Ontvang een persoonlijke offerte →
-                  </a>
+                  </button>
                 </div>
 
                 <div style={{
@@ -572,6 +613,219 @@
                   onMouseOut={(e) => e.target.style.color = '#666'}
                 >
                   ← Opnieuw berekenen
+                </button>
+              </div>
+            )}
+
+            {/* Contact Form */}
+            {showContactForm && !showSuccess && (
+              <div>
+                <h2 style={{
+                  margin: '0 0 8px 0',
+                  fontSize: '22px',
+                  fontWeight: '700',
+                  color: colors.charcoalBlack
+                }}>Vraag uw offerte aan</h2>
+                <p style={{
+                  margin: '0 0 24px 0',
+                  fontSize: '15px',
+                  color: '#666'
+                }}>We nemen binnen 24 uur contact met u op</p>
+
+                <form onSubmit={handleContactSubmit}>
+                  <div style={{ marginBottom: '16px' }}>
+                    <input
+                      type="text"
+                      placeholder="Voornaam *"
+                      value={formData.firstName}
+                      onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+                      style={{
+                        width: '100%',
+                        padding: '14px',
+                        fontSize: '15px',
+                        border: `2px solid ${colors.lightGray}`,
+                        borderRadius: '8px',
+                        fontFamily: 'Quicksand, sans-serif',
+                        outline: 'none'
+                      }}
+                    />
+                  </div>
+
+                  <div style={{ marginBottom: '16px' }}>
+                    <input
+                      type="text"
+                      placeholder="Achternaam *"
+                      value={formData.lastName}
+                      onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+                      style={{
+                        width: '100%',
+                        padding: '14px',
+                        fontSize: '15px',
+                        border: `2px solid ${colors.lightGray}`,
+                        borderRadius: '8px',
+                        fontFamily: 'Quicksand, sans-serif',
+                        outline: 'none'
+                      }}
+                    />
+                  </div>
+
+                  <div style={{ marginBottom: '16px' }}>
+                    <input
+                      type="email"
+                      placeholder="E-mailadres *"
+                      value={formData.email}
+                      onChange={(e) => setFormData({...formData, email: e.target.value})}
+                      style={{
+                        width: '100%',
+                        padding: '14px',
+                        fontSize: '15px',
+                        border: `2px solid ${colors.lightGray}`,
+                        borderRadius: '8px',
+                        fontFamily: 'Quicksand, sans-serif',
+                        outline: 'none'
+                      }}
+                    />
+                  </div>
+
+                  <div style={{ marginBottom: '16px' }}>
+                    <input
+                      type="tel"
+                      placeholder="Telefoonnummer *"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                      style={{
+                        width: '100%',
+                        padding: '14px',
+                        fontSize: '15px',
+                        border: `2px solid ${colors.lightGray}`,
+                        borderRadius: '8px',
+                        fontFamily: 'Quicksand, sans-serif',
+                        outline: 'none'
+                      }}
+                    />
+                  </div>
+
+                  {formError && (
+                    <p style={{
+                      color: '#dc2626',
+                      fontSize: '13px',
+                      marginBottom: '16px'
+                    }}>{formError}</p>
+                  )}
+
+                  <button
+                    type="submit"
+                    style={{
+                      width: '100%',
+                      padding: '16px',
+                      fontSize: '15px',
+                      fontWeight: '600',
+                      color: 'white',
+                      background: `linear-gradient(135deg, ${colors.marineGreen} 0%, ${colors.marineGreenDark} 100%)`,
+                      border: 'none',
+                      borderRadius: '12px',
+                      cursor: 'pointer',
+                      boxShadow: '0 4px 12px rgba(34, 197, 94, 0.25)',
+                      fontFamily: 'Quicksand, sans-serif'
+                    }}
+                    onMouseOver={(e) => e.target.style.transform = 'translateY(-1px)'}
+                    onMouseOut={(e) => e.target.style.transform = 'translateY(0)'}
+                  >
+                    Offerte aanvragen →
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setShowContactForm(false)}
+                    style={{
+                      marginTop: '16px',
+                      padding: '10px 0',
+                      fontSize: '13px',
+                      color: '#666',
+                      background: 'transparent',
+                      border: 'none',
+                      cursor: 'pointer',
+                      fontWeight: '500',
+                      width: '100%',
+                      fontFamily: 'Quicksand, sans-serif'
+                    }}
+                    onMouseOver={(e) => e.target.style.color = colors.deepseaBlue}
+                    onMouseOut={(e) => e.target.style.color = '#666'}
+                  >
+                    ← Terug naar resultaten
+                  </button>
+                </form>
+              </div>
+            )}
+
+            {/* Success Message */}
+            {showSuccess && (
+              <div style={{ textAlign: 'center', padding: '40px 20px' }}>
+                <div style={{
+                  width: '80px',
+                  height: '80px',
+                  margin: '0 auto 24px',
+                  background: colors.marineGreen,
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <span style={{ fontSize: '40px', color: 'white' }}>✓</span>
+                </div>
+                <h2 style={{
+                  margin: '0 0 12px 0',
+                  fontSize: '24px',
+                  fontWeight: '700',
+                  color: colors.charcoalBlack
+                }}>Bedankt!</h2>
+                <p style={{
+                  margin: '0 0 32px 0',
+                  fontSize: '15px',
+                  color: '#666'
+                }}>We hebben uw aanvraag ontvangen en nemen binnen 24 uur contact met u op.</p>
+                
+                <button
+                  onClick={() => {
+                    setShowSuccess(false);
+                    setShowContactForm(false);
+                    setShowResults(false);
+                    setStep(0);
+                    setFormData({
+                      customerType: '',
+                      boatType: '',
+                      boatLength: 6,
+                      boatWeight: 2000,
+                      currentDrive: '',
+                      waterType: '',
+                      tripDuration: '',
+                      firstName: '',
+                      lastName: '',
+                      email: '',
+                      phone: ''
+                    });
+                  }}
+                  style={{
+                    padding: '12px 32px',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    color: colors.deepseaBlue,
+                    background: 'white',
+                    border: `2px solid ${colors.deepseaBlue}`,
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    fontFamily: 'Quicksand, sans-serif'
+                  }}
+                  onMouseOver={(e) => {
+                    e.target.style.background = colors.deepseaBlue;
+                    e.target.style.color = 'white';
+                  }}
+                  onMouseOut={(e) => {
+                    e.target.style.background = 'white';
+                    e.target.style.color = colors.deepseaBlue;
+                  }}
+                >
+                  Nieuwe berekening maken
                 </button>
               </div>
             )}

@@ -14,6 +14,52 @@
       font-family: 'Quicksand', sans-serif; 
       background: transparent;
       min-height: 100vh;
+      padding: 0;
+    }
+    
+    /* Reviews Ticker */
+    .reviews-ticker-fixed {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      padding: 8px 0;
+      overflow: hidden;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+    }
+    
+    .reviews-scroll-compact {
+      display: flex;
+      gap: 50px;
+      animation: scroll-reviews 35s linear infinite;
+      white-space: nowrap;
+    }
+    
+    @keyframes scroll-reviews {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    
+    .review-compact {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.85);
+      flex-shrink: 0;
+    }
+    
+    .gold-stars {
+      color: #f59e0b;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+    }
+    
+    /* Main content push down for ticker */
+    .calculator-container {
+      margin-top: 32px;
       padding: 20px;
     }
   </style>
@@ -198,14 +244,41 @@
       const recommendation = showResults ? calculateRecommendation() : null;
 
       return (
-        <div style={{
-          maxWidth: '600px',
-          margin: '0 auto',
-          backgroundColor: colors.prettyWhite,
-          borderRadius: '24px',
-          overflow: 'hidden',
-          boxShadow: '0 8px 40px rgba(68, 68, 150, 0.12)'
-        }}>
+        <>
+          {/* Reviews Ticker */}
+          <div className="reviews-ticker-fixed">
+            <div className="reviews-scroll-compact">
+              <span className="review-compact"><span className="gold-stars">★★★★★</span> Sophie: "Geweldige service, motor draait perfect!"</span>
+              <span className="review-compact"><span className="gold-stars">★★★★★</span> Mark: "Snel geleverd en super stil op het water."</span>
+              <span className="review-compact"><span className="gold-stars">★★★★★</span> Lisa: "Eindelijk emissievrij varen, top!"</span>
+              <span className="review-compact"><span className="gold-stars">★★★★★</span> Jan: "Uitstekende prijs-kwaliteit verhouding."</span>
+              <span className="review-compact"><span className="gold-stars">★★★★★</span> Emma: "Vriendelijk team, erg tevreden."</span>
+              <span className="review-compact"><span className="gold-stars">★★★★★</span> Pieter: "Betrouwbaar en krachtig, aanrader!"</span>
+              <span className="review-compact"><span className="gold-stars">★★★★★</span> Anna: "De calculator hielp perfect bij mijn keuze."</span>
+              <span className="review-compact"><span className="gold-stars">★★★★★</span> Dirk: "Mooie motor, snel en efficient varen."</span>
+              
+              {/* Duplicate for seamless loop */}
+              <span className="review-compact"><span className="gold-stars">★★★★★</span> Sophie: "Geweldige service, motor draait perfect!"</span>
+              <span className="review-compact"><span className="gold-stars">★★★★★</span> Mark: "Snel geleverd en super stil op het water."</span>
+              <span className="review-compact"><span className="gold-stars">★★★★★</span> Lisa: "Eindelijk emissievrij varen, top!"</span>
+              <span className="review-compact"><span className="gold-stars">★★★★★</span> Jan: "Uitstekende prijs-kwaliteit verhouding."</span>
+              <span className="review-compact"><span className="gold-stars">★★★★★</span> Emma: "Vriendelijk team, erg tevreden."</span>
+              <span className="review-compact"><span className="gold-stars">★★★★★</span> Pieter: "Betrouwbaar en krachtig, aanrader!"</span>
+              <span className="review-compact"><span className="gold-stars">★★★★★</span> Anna: "De calculator hielp perfect bij mijn keuze."</span>
+              <span className="review-compact"><span className="gold-stars">★★★★★</span> Dirk: "Mooie motor, snel en efficient varen."</span>
+            </div>
+          </div>
+
+          {/* Calculator Card */}
+          <div className="calculator-container">
+            <div style={{
+              maxWidth: '600px',
+              margin: '0 auto',
+              backgroundColor: colors.prettyWhite,
+              borderRadius: '24px',
+              overflow: 'hidden',
+              boxShadow: '0 8px 40px rgba(68, 68, 150, 0.12)'
+            }}>
           
           {/* Header */}
           <div style={{
@@ -830,19 +903,21 @@
               </div>
             )}
 
-          </div>
+            </div>
 
-          {/* Footer */}
-          <div style={{
-            padding: '16px 28px',
-            borderTop: `1px solid ${colors.lightGray}`,
-            textAlign: 'center'
-          }}>
-            <p style={{ fontSize: '11px', color: '#888' }}>
-              Onze motor is 30% zuiniger dankzij direct-drive technologie
-            </p>
+            {/* Footer */}
+            <div style={{
+              padding: '16px 28px',
+              borderTop: `1px solid ${colors.lightGray}`,
+              textAlign: 'center'
+            }}>
+              <p style={{ fontSize: '11px', color: '#888' }}>
+                Onze motor is 30% zuiniger dankzij direct-drive technologie
+              </p>
+            </div>
           </div>
         </div>
+        </>
       );
     }
 

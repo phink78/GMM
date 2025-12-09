@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Green Marine Header</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { 
+      font-family: 'Quicksand', sans-serif; 
+      background: transparent;
+      margin: 0;
+    }
+    
+    /* Header */
+    .header {
+      background: #444496;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+    }
+    
+    .logo {
+      height: 40px;
+      width: auto;
+    }
+    
+    /* Desktop Menu */
+    .menu {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      flex: 1;
+      justify-content: center;
+    }
+    
+    .menu a {
+      color: white;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    
+    .menu a:hover {
+      color: #3CEF2F;
+    }
+    
+    /* Right section */
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    /* Language Selector */
+    .language-selector {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    
+    .lang-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      font-family: 'Quicksand', sans-serif;
+      transition: all 0.2s;
+    }
+    
+    .lang-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    
+    .lang-btn.active {
+      background: #3CEF2F;
+      border-color: #3CEF2F;
+      color: #262526;
+    }
+    
+    /* Zakelijk Button */
+    .zakelijk-btn {
+      background: #FF6D00;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: 'Quicksand', sans-serif;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    
+    .zakelijk-btn:hover {
+      background: #e56200;
+    }
+    
+    /* Hamburger Menu */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 8px;
+    }
+    
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background: white;
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+    
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(8px, 8px);
+    }
+    
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -7px);
+    }
+    
+    /* Mobile Menu */
+    .mobile-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: #444496;
+      padding: 20px 24px;
+      flex-direction: column;
+      gap: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 1000;
+    }
+    
+    .mobile-menu.active {
+      display: flex;
+    }
+    
+    .mobile-menu a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .mobile-menu .language-selector {
+      padding: 12px 0;
+    }
+    
+    .mobile-menu .zakelijk-btn {
+      width: 100%;
+      margin-top: 8px;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .menu {
+        display: none;
+      }
+      
+      .header-right {
+        display: none;
+      }
+      
+      .hamburger {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <!-- Logo -->
+    <img src="logo.png" alt="Green Marine Motors" class="logo">
+    
+    <!-- Desktop Menu -->
+    <nav class="menu">
+      <a href="#home">Home</a>
+      <a href="#nieuws">Nieuws</a>
+      <a href="#motoren">Motoren</a>
+      <a href="#calculator">Calculator</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    
+    <!-- Right Section -->
+    <div class="header-right">
+      <!-- Language Selector -->
+      <div class="language-selector">
+        <button class="lang-btn active" onclick="setLanguage('NL')">NL</button>
+        <button class="lang-btn" onclick="setLanguage('EN')">EN</button>
+        <button class="lang-btn" onclick="setLanguage('SE')">SE</button>
+        <button class="lang-btn" onclick="setLanguage('DE')">DE</button>
+        <button class="lang-btn" onclick="setLanguage('FR')">FR</button>
+      </div>
+      
+      <!-- Zakelijk Button -->
+      <button class="zakelijk-btn" onclick="goToZakelijk()">Ga naar Zakelijk</button>
+    </div>
+    
+    <!-- Hamburger Menu (Mobile) -->
+    <button class="hamburger" onclick="toggleMobileMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+  
+  <!-- Mobile Menu -->
+  <nav class="mobile-menu" id="mobileMenu">
+    <a href="#home">Home</a>
+    <a href="#nieuws">Nieuws</a>
+    <a href="#motoren">Motoren</a>
+    <a href="#calculator">Calculator</a>
+    <a href="#contact">Contact</a>
+    
+    <div class="language-selector">
+      <button class="lang-btn active" onclick="setLanguage('NL')">NL</button>
+      <button class="lang-btn" onclick="setLanguage('EN')">EN</button>
+      <button class="lang-btn" onclick="setLanguage('SE')">SE</button>
+      <button class="lang-btn" onclick="setLanguage('DE')">DE</button>
+      <button class="lang-btn" onclick="setLanguage('FR')">FR</button>
+    </div>
+    
+    <button class="zakelijk-btn" onclick="goToZakelijk()">Ga naar Zakelijk</button>
+  </nav>
+  
+  <script>
+    function toggleMobileMenu() {
+      const hamburger = document.querySelector('.hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      hamburger.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+    }
+    
+    function setLanguage(lang) {
+      // Remove active class from all buttons
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      
+      // Add active class to clicked buttons (both desktop and mobile)
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        if (btn.textContent === lang) {
+          btn.classList.add('active');
+        }
+      });
+      
+      // Send message to parent window (Wix)
+      if (window.parent) {
+        window.parent.postMessage({
+          type: 'GREEN_MARINE_LANGUAGE',
+          language: lang
+        }, '*');
+      }
+      
+      console.log('Language changed to:', lang);
+    }
+    
+    function goToZakelijk() {
+      // Send message to parent window (Wix)
+      if (window.parent) {
+        window.parent.postMessage({
+          type: 'GREEN_MARINE_NAVIGATE',
+          page: 'zakelijk'
+        }, '*');
+      }
+      
+      // Fallback: navigate directly
+      window.location.href = '#zakelijk';
+    }
+  </script>
+</body>
+</html>

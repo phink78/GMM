@@ -58,32 +58,78 @@
     
     /* Language Selector */
     .language-selector {
-      display: flex;
-      gap: 8px;
-      align-items: center;
+      position: relative;
     }
     
-    .lang-btn {
+    .lang-dropdown-btn {
       background: rgba(255, 255, 255, 0.1);
       border: 1px solid rgba(255, 255, 255, 0.2);
       color: white;
-      padding: 6px 10px;
+      padding: 8px 14px;
       border-radius: 6px;
       cursor: pointer;
       font-size: 13px;
       font-weight: 500;
       font-family: 'Quicksand', sans-serif;
       transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
     
-    .lang-btn:hover {
+    .lang-dropdown-btn:hover {
       background: rgba(255, 255, 255, 0.2);
       border-color: rgba(255, 255, 255, 0.3);
     }
     
-    .lang-btn.active {
+    .lang-dropdown-btn::after {
+      content: '▼';
+      font-size: 10px;
+      transition: transform 0.2s;
+    }
+    
+    .lang-dropdown-btn.active::after {
+      transform: rotate(180deg);
+    }
+    
+    .lang-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      right: 0;
+      background: #444496;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      overflow: hidden;
+      display: none;
+      flex-direction: column;
+      min-width: 80px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+    }
+    
+    .lang-dropdown.active {
+      display: flex;
+    }
+    
+    .lang-option {
+      background: transparent;
+      border: none;
+      color: white;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      font-family: 'Quicksand', sans-serif;
+      text-align: left;
+      transition: background 0.2s;
+    }
+    
+    .lang-option:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .lang-option.selected {
       background: #3CEF2F;
-      border-color: #3CEF2F;
       color: #262526;
     }
     
@@ -167,6 +213,7 @@
     
     .mobile-menu .language-selector {
       padding: 12px 0;
+      position: relative;
     }
     
     .mobile-menu .zakelijk-btn {
@@ -208,11 +255,16 @@
     <div class="header-right">
       <!-- Language Selector -->
       <div class="language-selector">
-        <button class="lang-btn active" onclick="setLanguage('NL')">NL</button>
-        <button class="lang-btn" onclick="setLanguage('EN')">EN</button>
-        <button class="lang-btn" onclick="setLanguage('SE')">SE</button>
-        <button class="lang-btn" onclick="setLanguage('DE')">DE</button>
-        <button class="lang-btn" onclick="setLanguage('FR')">FR</button>
+        <button class="lang-dropdown-btn" onclick="toggleLanguageDropdown()">
+          <span id="currentLang">NL</span>
+        </button>
+        <div class="lang-dropdown" id="langDropdown">
+          <button class="lang-option selected" onclick="selectLanguage('NL')">NL</button>
+          <button class="lang-option" onclick="selectLanguage('EN')">EN</button>
+          <button class="lang-option" onclick="selectLanguage('SE')">SE</button>
+          <button class="lang-option" onclick="selectLanguage('DE')">DE</button>
+          <button class="lang-option" onclick="selectLanguage('FR')">FR</button>
+        </div>
       </div>
       
       <!-- Zakelijk Button -->
@@ -236,17 +288,24 @@
     <a href="#contact">Contact</a>
     
     <div class="language-selector">
-      <button class="lang-btn active" onclick="setLanguage('NL')">NL</button>
-      <button class="lang-btn" onclick="setLanguage('EN')">EN</button>
-      <button class="lang-btn" onclick="setLanguage('SE')">SE</button>
-      <button class="lang-btn" onclick="setLanguage('DE')">DE</button>
-      <button class="lang-btn" onclick="setLanguage('FR')">FR</button>
+      <button class="lang-dropdown-btn" onclick="toggleLanguageDropdown(true)">
+        <span id="currentLangMobile">NL</span>
+      </button>
+      <div class="lang-dropdown" id="langDropdownMobile">
+        <button class="lang-option selected" onclick="selectLanguage('NL')">NL</button>
+        <button class="lang-option" onclick="selectLanguage('EN')">EN</button>
+        <button class="lang-option" onclick="selectLanguage('SE')">SE</button>
+        <button class="lang-option" onclick="selectLanguage('DE')">DE</button>
+        <button class="lang-option" onclick="selectLanguage('FR')">FR</button>
+      </div>
     </div>
     
     <button class="zakelijk-btn" onclick="goToZakelijk()">Ga naar Zakelijk</button>
   </nav>
   
   <script>
+    let currentLanguage = 'NL';
+    
     function toggleMobileMenu() {
       const hamburger = document.querySelector('.hamburger');
       const mobileMenu = document.getElementById('mobileMenu');
@@ -254,17 +313,45 @@
       mobileMenu.classList.toggle('active');
     }
     
-    function setLanguage(lang) {
-      // Remove active class from all buttons
-      document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.remove('active');
+    function toggleLanguageDropdown(isMobile = false) {
+      const dropdownId = isMobile ? 'langDropdownMobile' : 'langDropdown';
+      const dropdown = document.getElementById(dropdownId);
+      const btn = dropdown.previousElementSibling;
+      
+      // Close other dropdown
+      const otherDropdownId = isMobile ? 'langDropdown' : 'langDropdownMobile';
+      const otherDropdown = document.getElementById(otherDropdownId);
+      if (otherDropdown) {
+        otherDropdown.classList.remove('active');
+        otherDropdown.previousElementSibling.classList.remove('active');
+      }
+      
+      dropdown.classList.toggle('active');
+      btn.classList.toggle('active');
+    }
+    
+    function selectLanguage(lang) {
+      currentLanguage = lang;
+      
+      // Update both desktop and mobile displays
+      document.getElementById('currentLang').textContent = lang;
+      document.getElementById('currentLangMobile').textContent = lang;
+      
+      // Update selected state in both dropdowns
+      document.querySelectorAll('.lang-option').forEach(btn => {
+        if (btn.textContent === lang) {
+          btn.classList.add('selected');
+        } else {
+          btn.classList.remove('selected');
+        }
       });
       
-      // Add active class to clicked buttons (both desktop and mobile)
-      document.querySelectorAll('.lang-btn').forEach(btn => {
-        if (btn.textContent === lang) {
-          btn.classList.add('active');
-        }
+      // Close dropdowns
+      document.querySelectorAll('.lang-dropdown').forEach(dropdown => {
+        dropdown.classList.remove('active');
+      });
+      document.querySelectorAll('.lang-dropdown-btn').forEach(btn => {
+        btn.classList.remove('active');
       });
       
       // Send message to parent window (Wix)
@@ -290,6 +377,18 @@
       // Fallback: navigate directly
       window.location.href = '#zakelijk';
     }
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(event) {
+      if (!event.target.closest('.language-selector')) {
+        document.querySelectorAll('.lang-dropdown').forEach(dropdown => {
+          dropdown.classList.remove('active');
+        });
+        document.querySelectorAll('.lang-dropdown-btn').forEach(btn => {
+          btn.classList.remove('active');
+        });
+      }
+    });
   </script>
 </body>
 </html>

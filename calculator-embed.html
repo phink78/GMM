@@ -35,6 +35,7 @@
     };
 
     function GreenMarineCalculator() {
+      const [showIntro, setShowIntro] = useState(true);
       const [step, setStep] = useState(0);
       const [formData, setFormData] = useState({
         customerType: '',
@@ -103,7 +104,7 @@
         {
           id: 'boatType',
           title: 'Type boot',
-          subtitle: 'Wat voor boot heeft u?',
+          subtitle: 'Wat voor boot heb je?',
           options: [
             { value: 'sloep', label: 'Sloep' },
             { value: 'zeilboot', label: 'Zeilboot' },
@@ -116,13 +117,13 @@
         {
           id: 'boatSpecs',
           title: 'Boot specificaties',
-          subtitle: 'Vul de gegevens van uw boot in',
+          subtitle: 'Vul de gegevens van je boot in',
           type: 'input'
         },
         {
           id: 'currentDrive',
           title: 'Huidige aandrijving',
-          subtitle: 'Wat voor motor heeft uw boot nu?',
+          subtitle: 'Wat voor motor heeft je boot nu?',
           options: [
             { value: 'buitenboord', label: 'Buitenboord' },
             { value: 'binnenboord', label: 'Binnenboord' }
@@ -131,7 +132,7 @@
         {
           id: 'waterType',
           title: 'Vaargebied',
-          subtitle: 'Waar vaart u voornamelijk?',
+          subtitle: 'Waar vaar je voornamelijk?',
           options: [
             { value: 'binnenwater', label: 'Binnenwater' },
             { value: 'kustwater', label: 'Kustwater' },
@@ -141,7 +142,7 @@
         {
           id: 'tripDuration',
           title: 'Gemiddelde vaartocht',
-          subtitle: 'Hoe lang vaart u gemiddeld?',
+          subtitle: 'Hoe lang vaar je gemiddeld?',
           options: [
             { value: '2-4', label: '2-4 uur' },
             { value: '4-8', label: '4-8 uur' },
@@ -227,30 +228,77 @@
             background: `linear-gradient(90deg, ${colors.kingOrange} 0%, ${colors.marineGreen} 100%)`
           }} />
 
-          <div style={{
-            padding: '20px 24px',
-            textAlign: 'center',
-            borderBottom: `1px solid ${colors.lightGray}`
-          }}>
-            <h2 style={{
-              margin: '0 0 6px 0',
-              fontSize: '18px',
-              fontWeight: '700',
-              color: colors.charcoalBlack
-            }}>
-              Ontdek welke motor bij jouw boot past
-            </h2>
-            <p style={{
-              margin: 0,
-              fontSize: '14px',
-              color: '#666'
-            }}>
-              In <span style={{ color: colors.kingOrange, fontWeight: '600' }}>2 minuten</span> een persoonlijke aanbeveling
-            </p>
-          </div>
+          {/* Intro Screen */}
+          {showIntro && (
+            <div style={{ padding: '48px 32px', textAlign: 'center' }}>
+              <h1 style={{
+                margin: '0 0 16px 0',
+                fontSize: '28px',
+                fontWeight: '700',
+                color: colors.charcoalBlack,
+                lineHeight: '1.3'
+              }}>
+                Ontdek welke motor bij jouw boot past
+              </h1>
+              <p style={{
+                margin: '0 0 32px 0',
+                fontSize: '17px',
+                color: '#666'
+              }}>
+                In <span style={{ color: colors.kingOrange, fontWeight: '600' }}>2 minuten</span> een persoonlijke aanbeveling
+              </p>
+              
+              <button
+                onClick={() => setShowIntro(false)}
+                style={{
+                  padding: '18px 48px',
+                  fontSize: '16px',
+                  fontWeight: '600',
+                  color: 'white',
+                  background: `linear-gradient(135deg, ${colors.marineGreen} 0%, ${colors.marineGreenDark} 100%)`,
+                  border: 'none',
+                  borderRadius: '12px',
+                  cursor: 'pointer',
+                  boxShadow: '0 6px 20px rgba(60, 239, 47, 0.3)',
+                  fontFamily: 'Quicksand, sans-serif',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseOver={(e) => {
+                  e.target.style.transform = 'translateY(-2px)';
+                  e.target.style.boxShadow = '0 8px 24px rgba(60, 239, 47, 0.4)';
+                }}
+                onMouseOut={(e) => {
+                  e.target.style.transform = 'translateY(0)';
+                  e.target.style.boxShadow = '0 6px 20px rgba(60, 239, 47, 0.3)';
+                }}
+              >
+                Start hier
+              </button>
+              
+              <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                gap: '24px',
+                marginTop: '40px',
+                paddingTop: '32px',
+                borderTop: `1px solid ${colors.lightGray}`,
+                flexWrap: 'wrap'
+              }}>
+                <span style={{ fontSize: '12px', color: '#666', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ color: colors.marineGreen, fontSize: '16px' }}>✓</span> 5 jaar garantie
+                </span>
+                <span style={{ fontSize: '12px', color: '#666', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ color: colors.marineGreen, fontSize: '16px' }}>✓</span> Fluisterstil
+                </span>
+                <span style={{ fontSize: '12px', color: '#666', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ color: colors.marineGreen, fontSize: '16px' }}>✓</span> Gratis advies
+                </span>
+              </div>
+            </div>
+          )}
 
           {/* Progress Bar */}
-          {!showResults && (
+          {!showIntro && !showResults && !showContactForm && (
             <div style={{
               padding: '16px 24px',
               borderBottom: `1px solid ${colors.lightGray}`
@@ -287,7 +335,7 @@
           {/* Content */}
           <div style={{ padding: '32px 24px' }}>
             
-            {!showResults && currentStep.type !== 'input' && (
+            {!showIntro && !showResults && currentStep.type !== 'input' && (
               <div>
                 <h2 style={{
                   margin: '0 0 8px 0',
@@ -338,7 +386,7 @@
               </div>
             )}
 
-            {!showResults && currentStep.type === 'input' && (
+            {!showIntro && !showResults && currentStep.type === 'input' && (
               <div>
                 <h2 style={{
                   margin: '0 0 8px 0',
@@ -451,7 +499,7 @@
               </div>
             )}
 
-            {showResults && recommendation && (
+            {showResults && recommendation && !showContactForm && (
               <div>
                 <div style={{
                   background: `linear-gradient(135deg, ${colors.deepseaBlue} 0%, #5555aa 100%)`,
@@ -468,7 +516,7 @@
                     opacity: 0.8,
                     marginBottom: '4px'
                   }}>
-                    Uw aanbeveling
+                    Jouw aanbeveling
                   </p>
                   <h3 style={{
                     fontSize: '36px',
@@ -559,7 +607,7 @@
                     onMouseOver={(e) => e.target.style.transform = 'translateY(-2px)'}
                     onMouseOut={(e) => e.target.style.transform = 'translateY(0)'}
                   >
-                    Ontvang een persoonlijke offerte →
+                    Vraag een offerte aan →
                   </button>
                 </div>
 
@@ -585,6 +633,7 @@
 
                 <button
                   onClick={() => {
+                    setShowIntro(true);
                     setShowResults(false);
                     setStep(0);
                     setFormData({
@@ -594,7 +643,11 @@
                       boatWeight: 2000,
                       currentDrive: '',
                       waterType: '',
-                      tripDuration: ''
+                      tripDuration: '',
+                      firstName: '',
+                      lastName: '',
+                      email: '',
+                      phone: ''
                     });
                   }}
                   style={{
@@ -620,17 +673,59 @@
             {/* Contact Form */}
             {showContactForm && !showSuccess && (
               <div>
+                {/* Compact Motor Specs */}
+                <div style={{
+                  background: colors.lightGray,
+                  borderRadius: '12px',
+                  padding: '16px',
+                  marginBottom: '24px'
+                }}>
+                  <h3 style={{
+                    margin: '0 0 12px 0',
+                    fontSize: '16px',
+                    fontWeight: '600',
+                    color: colors.deepseaBlue,
+                    textAlign: 'center'
+                  }}>
+                    {recommendation.motor}
+                  </h3>
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(4, 1fr)',
+                    gap: '8px',
+                    fontSize: '11px',
+                    textAlign: 'center'
+                  }}>
+                    <div>
+                      <div style={{ color: '#999', marginBottom: '4px' }}>Vermogen</div>
+                      <div style={{ fontWeight: '600', color: colors.charcoalBlack }}>{recommendation.motorPower} kW</div>
+                    </div>
+                    <div>
+                      <div style={{ color: '#999', marginBottom: '4px' }}>Batterij</div>
+                      <div style={{ fontWeight: '600', color: colors.charcoalBlack }}>{recommendation.batteryCapacity} kWh</div>
+                    </div>
+                    <div>
+                      <div style={{ color: '#999', marginBottom: '4px' }}>Vaartijd</div>
+                      <div style={{ fontWeight: '600', color: colors.charcoalBlack }}>{recommendation.estimatedCruisingTime}u</div>
+                    </div>
+                    <div>
+                      <div style={{ color: '#999', marginBottom: '4px' }}>Snelheid</div>
+                      <div style={{ fontWeight: '600', color: colors.charcoalBlack }}>{recommendation.cruisingSpeed} km/h</div>
+                    </div>
+                  </div>
+                </div>
+
                 <h2 style={{
                   margin: '0 0 8px 0',
                   fontSize: '22px',
                   fontWeight: '700',
                   color: colors.charcoalBlack
-                }}>Vraag uw offerte aan</h2>
+                }}>Vraag je offerte aan</h2>
                 <p style={{
                   margin: '0 0 24px 0',
                   fontSize: '15px',
                   color: '#666'
-                }}>We nemen binnen 24 uur contact met u op</p>
+                }}>We nemen binnen 24 uur contact met je op</p>
 
                 <form onSubmit={handleContactSubmit}>
                   <div style={{ marginBottom: '16px' }}>
@@ -783,13 +878,14 @@
                   margin: '0 0 32px 0',
                   fontSize: '15px',
                   color: '#666'
-                }}>We hebben uw aanvraag ontvangen en nemen binnen 24 uur contact met u op.</p>
+                }}>We hebben je aanvraag ontvangen en nemen binnen 24 uur contact met je op.</p>
                 
                 <button
                   onClick={() => {
                     setShowSuccess(false);
                     setShowContactForm(false);
                     setShowResults(false);
+                    setShowIntro(true);
                     setStep(0);
                     setFormData({
                       customerType: '',

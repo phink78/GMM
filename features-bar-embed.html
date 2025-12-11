@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Green Marine Features</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { 
+      font-family: 'Quicksand', sans-serif; 
+      background: transparent;
+      margin: 0;
+      overflow: hidden;
+    }
+    
+    /* Features Bar */
+    .features-bar {
+      background: linear-gradient(135deg, #1a1a4d 0%, #262563 100%);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 48px;
+      border-bottom: 2px solid #3CEF2F;
+    }
+    
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: white;
+      font-size: 14px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    
+    .feature-icon {
+      width: 20px;
+      height: 20px;
+      fill: #3CEF2F;
+      flex-shrink: 0;
+    }
+    
+    .divider {
+      width: 1px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.3);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .features-bar {
+        gap: 24px;
+        padding: 10px 16px;
+        flex-wrap: wrap;
+        justify-content: space-around;
+      }
+      
+      .feature-item {
+        font-size: 12px;
+        gap: 6px;
+      }
+      
+      .feature-icon {
+        width: 16px;
+        height: 16px;
+      }
+      
+      .divider {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="features-bar">
+    <!-- Krachtig -->
+    <div class="feature-item">
+      <svg class="feature-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M7 2v11h3v9l7-12h-4l4-8z"/>
+      </svg>
+      <span>Krachtig</span>
+    </div>
+    
+    <div class="divider"></div>
+    
+    <!-- Fluisterstil -->
+    <div class="feature-item">
+      <svg class="feature-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
+      </svg>
+      <span>Fluisterstil</span>
+    </div>
+    
+    <div class="divider"></div>
+    
+    <!-- 5 jaar garantie -->
+    <div class="feature-item">
+      <svg class="feature-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+      </svg>
+      <span>5 jaar garantie</span>
+    </div>
+  </div>
+</body>
+</html>

@@ -242,22 +242,26 @@
     
     /* Mobile Menu */
     .mobile-menu {
-      display: none;
       position: absolute;
       top: 100%;
       left: 0;
       right: 0;
       background: white;
-      padding: 20px 24px;
+      padding: 0 24px;
       flex-direction: column;
       gap: 16px;
       border-top: 1px solid #e0e0e0;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      z-index: 1000;
+      z-index: 999;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+      display: flex;
     }
     
     .mobile-menu.active {
-      display: flex;
+      max-height: 600px;
+      padding: 20px 24px;
     }
     
     .mobile-menu a {
@@ -274,9 +278,14 @@
       position: relative;
     }
     
-    .mobile-menu .zakelijk-btn {
+    .mobile-menu .zakelijk-btn,
+    .mobile-menu .phone-btn {
       width: 100%;
       margin-top: 8px;
+    }
+    
+    .mobile-menu .phone-text {
+      display: inline !important;
     }
     
     /* Responsive */
@@ -374,11 +383,11 @@
       </div>
     </div>
     
-    <a href="tel:+31752340007" class="zakelijk-btn">
+    <a href="tel:+31752340007" class="phone-btn">
       <svg class="phone-icon" viewBox="0 0 24 24" fill="currentColor">
         <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
       </svg>
-      <span class="phone-text">Bel Ons</span>
+      <span class="phone-text">+31 75 234 0007</span>
     </a>
   </nav>
   

@@ -15,12 +15,13 @@
     
     /* Header */
     .header {
-      background: #444496;
+      background: white;
       padding: 12px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       position: relative;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     
     .logo {
@@ -38,7 +39,7 @@
     }
     
     .menu a {
-      color: white;
+      color: #262526;
       text-decoration: none;
       font-size: 15px;
       font-weight: 500;
@@ -95,9 +96,9 @@
     }
     
     .lang-dropdown-btn {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: white;
+      background: white;
+      border: 1px solid #e0e0e0;
+      color: #262526;
       padding: 8px 14px;
       border-radius: 6px;
       cursor: pointer;
@@ -111,8 +112,8 @@
     }
     
     .lang-dropdown-btn:hover {
-      background: rgba(255, 255, 255, 0.2);
-      border-color: rgba(255, 255, 255, 0.3);
+      background: #f5f5f5;
+      border-color: #d0d0d0;
     }
     
     .lang-dropdown-btn::after {
@@ -129,14 +130,14 @@
       position: absolute;
       top: calc(100% + 4px);
       right: 0;
-      background: #444496;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: white;
+      border: 1px solid #e0e0e0;
       border-radius: 8px;
       overflow: hidden;
       display: none;
       flex-direction: column;
       min-width: 80px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       z-index: 1000;
     }
     
@@ -147,7 +148,7 @@
     .lang-option {
       background: transparent;
       border: none;
-      color: white;
+      color: #262526;
       padding: 10px 16px;
       cursor: pointer;
       font-size: 13px;
@@ -158,12 +159,12 @@
     }
     
     .lang-option:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: #f5f5f5;
     }
     
     .lang-option.selected {
       background: #3CEF2F;
-      color: #262526;
+      color: white;
     }
     
     /* Zakelijk Button - kept for backward compatibility but renamed to phone */
@@ -222,7 +223,7 @@
     .hamburger span {
       width: 25px;
       height: 3px;
-      background: white;
+      background: #262526;
       border-radius: 2px;
       transition: all 0.3s;
     }
@@ -246,11 +247,12 @@
       top: 100%;
       left: 0;
       right: 0;
-      background: #444496;
+      background: white;
       padding: 20px 24px;
       flex-direction: column;
       gap: 16px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      border-top: 1px solid #e0e0e0;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       z-index: 1000;
     }
     
@@ -259,12 +261,12 @@
     }
     
     .mobile-menu a {
-      color: white;
+      color: #262526;
       text-decoration: none;
       font-size: 16px;
       font-weight: 500;
       padding: 12px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid #e0e0e0;
     }
     
     .mobile-menu .language-selector {
@@ -314,7 +316,7 @@
       <a href="#home">Home</a>
       <a href="#nieuws">Nieuws</a>
       <a href="#motoren">Motoren</a>
-      <a href="#zakelijk">Zakelijk</a>
+      <a href="#calculator">Calculator</a>
       <a href="#contact">Contact</a>
     </nav>
     
@@ -356,7 +358,7 @@
     <a href="#home">Home</a>
     <a href="#nieuws">Nieuws</a>
     <a href="#motoren">Motoren</a>
-    <a href="#zakelijk">Zakelijk</a>
+    <a href="#calculator">Calculator</a>
     <a href="#contact">Contact</a>
     
     <div class="language-selector">

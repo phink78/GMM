@@ -38,15 +38,59 @@
       justify-content: center;
     }
     
-    .menu a {
+    .menu-item {
+      position: relative;
+    }
+    
+    .menu a, .menu-trigger {
       color: #262526;
       text-decoration: none;
       font-size: 15px;
       font-weight: 500;
       transition: color 0.2s;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Quicksand', sans-serif;
+      padding: 0;
     }
     
-    .menu a:hover {
+    .menu a:hover, .menu-trigger:hover {
+      color: #3CEF2F;
+    }
+    
+    /* Dropdown Menu */
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 12px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      display: none;
+      padding: 20px 24px;
+      min-width: 600px;
+      z-index: 1000;
+      gap: 40px;
+    }
+    
+    .dropdown-menu.active {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .dropdown-column a {
+      display: block;
+      padding: 10px 0;
+      color: #262526;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    
+    .dropdown-column a:hover {
       color: #3CEF2F;
     }
     
@@ -255,6 +299,40 @@
       z-index: 999;
       max-height: 0;
       overflow: hidden;
+      transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    }
+    
+    .mobile-menu.active {
+      max-height: 600px;
+      padding: 24px;
+    }
+    
+    .mobile-menu-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .mobile-menu-title {
+      font-weight: 600;
+      color: #444496;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+    
+    .mobile-menu-section a {
+      padding-left: 12px;
+      font-size: 14px;
+      color: #262526;
+      text-decoration: none;
+    }
+    
+    .mobile-menu-section a:hover {
+      color: #444496;
+    }
+      overflow: hidden;
       transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
       display: flex;
     }
@@ -322,11 +400,46 @@
     
     <!-- Desktop Menu -->
     <nav class="menu">
-      <a href="#home">Home</a>
-      <a href="#nieuws">Nieuws</a>
-      <a href="#motoren">Motoren</a>
-      <a href="#calculator">Calculator</a>
-      <a href="#contact">Contact</a>
+      <div class="menu-item">
+        <button class="menu-trigger" onclick="toggleDropdown('motorMenu')">Motor</button>
+        <div class="dropdown-menu" id="motorMenu">
+          <div class="dropdown-column">
+            <a href="#gm5">GM5</a>
+            <a href="#gm7-5">GM7.5</a>
+            <a href="#gm10">GM10</a>
+            <a href="#gm17-5">GM17.5</a>
+          </div>
+          <div class="dropdown-column">
+            <a href="#gm22-5">GM22.5</a>
+            <a href="#gm35">GM35</a>
+            <a href="#gm45">GM45</a>
+            <a href="#gm60">GM60</a>
+          </div>
+          <div class="dropdown-column">
+            <a href="#maatwerk">Maatwerk</a>
+            <a href="#hybride">Hybride</a>
+          </div>
+        </div>
+      </div>
+      <a href="#zakelijk">Zakelijk</a>
+      <a href="#showcases">Showcases</a>
+      <div class="menu-item">
+        <button class="menu-trigger" onclick="toggleDropdown('serviceMenu')">Service</button>
+        <div class="dropdown-menu" id="serviceMenu">
+          <div class="dropdown-column">
+            <a href="#veelgestelde-vragen">Veelgestelde vragen</a>
+            <a href="#dealers">Dealers</a>
+          </div>
+          <div class="dropdown-column">
+            <a href="#vind-dealer">Vind een dealer</a>
+            <a href="#downloads">Downloads</a>
+          </div>
+          <div class="dropdown-column">
+            <a href="#contact">Contact</a>
+          </div>
+        </div>
+      </div>
+      <a href="#over-ons">Over ons</a>
     </nav>
     
     <!-- Right Section -->
@@ -364,11 +477,33 @@
   
   <!-- Mobile Menu -->
   <nav class="mobile-menu" id="mobileMenu">
-    <a href="#home">Home</a>
-    <a href="#nieuws">Nieuws</a>
-    <a href="#motoren">Motoren</a>
-    <a href="#calculator">Calculator</a>
-    <a href="#contact">Contact</a>
+    <div class="mobile-menu-section">
+      <div class="mobile-menu-title">Motor</div>
+      <a href="#gm5">GM5</a>
+      <a href="#gm7-5">GM7.5</a>
+      <a href="#gm10">GM10</a>
+      <a href="#gm17-5">GM17.5</a>
+      <a href="#gm22-5">GM22.5</a>
+      <a href="#gm35">GM35</a>
+      <a href="#gm45">GM45</a>
+      <a href="#gm60">GM60</a>
+      <a href="#maatwerk">Maatwerk</a>
+      <a href="#hybride">Hybride</a>
+    </div>
+    
+    <a href="#zakelijk">Zakelijk</a>
+    <a href="#showcases">Showcases</a>
+    
+    <div class="mobile-menu-section">
+      <div class="mobile-menu-title">Service</div>
+      <a href="#faq">Veelgestelde vragen</a>
+      <a href="#dealers">Dealers</a>
+      <a href="#vind-dealer">Vind een dealer</a>
+      <a href="#downloads">Downloads</a>
+      <a href="#contact">Contact</a>
+    </div>
+    
+    <a href="#over-ons">Over ons</a>
     
     <div class="language-selector">
       <button class="lang-dropdown-btn" onclick="toggleLanguageDropdown(true)">
@@ -393,6 +528,21 @@
   
   <script>
     let currentLanguage = 'NL';
+    
+    function toggleDropdown(menuId) {
+      const menu = document.getElementById(menuId);
+      const isActive = menu.classList.contains('active');
+      
+      // Close all dropdowns
+      document.querySelectorAll('.dropdown-menu').forEach(dropdown => {
+        dropdown.classList.remove('active');
+      });
+      
+      // Toggle the clicked dropdown
+      if (!isActive) {
+        menu.classList.add('active');
+      }
+    }
     
     function toggleMobileMenu() {
       const hamburger = document.querySelector('.hamburger');
@@ -455,12 +605,20 @@
     
     // Close dropdowns when clicking outside
     document.addEventListener('click', function(event) {
+      // Close language dropdowns
       if (!event.target.closest('.language-selector')) {
         document.querySelectorAll('.lang-dropdown').forEach(dropdown => {
           dropdown.classList.remove('active');
         });
         document.querySelectorAll('.lang-dropdown-btn').forEach(btn => {
           btn.classList.remove('active');
+        });
+      }
+      
+      // Close menu dropdowns
+      if (!event.target.closest('.menu-item')) {
+        document.querySelectorAll('.dropdown-menu').forEach(dropdown => {
+          dropdown.classList.remove('active');
         });
       }
     });

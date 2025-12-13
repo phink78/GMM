@@ -20,7 +20,7 @@
     /* Header */
     .header {
       background: #FFFFFF;
-      padding: 12px 24px;
+      padding: 12px 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -33,6 +33,11 @@
     .logo {
       height: 40px;
       width: auto;
+      margin-left: 24px;
+    }
+    
+    .header-right {
+      margin-right: 24px;
     }
     
     /* Desktop Menu */
@@ -59,6 +64,8 @@
       cursor: pointer;
       font-family: 'Quicksand', sans-serif;
       padding: 0;
+      line-height: 1;
+      vertical-align: baseline;
     }
     
     .menu a:hover, .menu-trigger:hover {
@@ -541,7 +548,6 @@
           <button class="lang-option" onclick="selectLanguage('EN')">EN</button>
           <button class="lang-option" onclick="selectLanguage('SE')">SE</button>
           <button class="lang-option" onclick="selectLanguage('DE')">DE</button>
-          <button class="lang-option" onclick="selectLanguage('FR')">FR</button>
         </div>
       </div>
       
@@ -601,7 +607,6 @@
         <button class="lang-option" onclick="selectLanguage('EN')">EN</button>
         <button class="lang-option" onclick="selectLanguage('SE')">SE</button>
         <button class="lang-option" onclick="selectLanguage('DE')">DE</button>
-        <button class="lang-option" onclick="selectLanguage('FR')">FR</button>
       </div>
     </div>
     

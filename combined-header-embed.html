@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Green Marine Header</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { 
+      font-family: 'Quicksand', sans-serif; 
+      background: transparent;
+      margin: 0;
+    }
+    
+    /* Header */
+    .header {
+      background: white;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .logo {
+      height: 40px;
+      width: auto;
+    }
+    
+    /* Desktop Menu */
+    .menu {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      flex: 1;
+      justify-content: center;
+    }
+    
+    .menu-item {
+      position: relative;
+    }
+    
+    .menu a, .menu-trigger {
+      color: #262526;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      transition: color 0.2s;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Quicksand', sans-serif;
+      padding: 0;
+    }
+    
+    .menu a:hover, .menu-trigger:hover {
+      color: #3CEF2F;
+    }
+    
+    /* Dropdown Menu */
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 12px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      display: none;
+      padding: 20px 24px;
+      min-width: 600px;
+      z-index: 1000;
+      gap: 40px;
+    }
+    
+    .dropdown-menu.active {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .dropdown-column a {
+      display: block;
+      padding: 10px 0;
+      color: #262526;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    
+    .dropdown-column a:hover {
+      color: #3CEF2F;
+    }
+    
+    /* Right section */
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    /* Language Selector */
+    .language-selector {
+      position: relative;
+    }
+    
+    .lang-dropdown-btn {
+      background: white;
+      border: 1px solid #e0e0e0;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: 'Quicksand', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #262526;
+      min-width: 60px;
+      justify-content: center;
+    }
+    
+    .lang-dropdown-btn:hover {
+      background: #f5f5f5;
+      border-color: #3CEF2F;
+    }
+    
+    .lang-dropdown-btn.active {
+      border-color: #3CEF2F;
+      background: #f5f5f5;
+    }
+    
+    .lang-dropdown-btn::after {
+      content: '▼';
+      font-size: 10px;
+      margin-left: 4px;
+      color: #666;
+    }
+    
+    .lang-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      overflow: hidden;
+      display: none;
+      z-index: 1000;
+    }
+    
+    .lang-dropdown.active {
+      display: block;
+    }
+    
+    .lang-option {
+      width: 100%;
+      padding: 10px 16px;
+      border: none;
+      background: white;
+      color: #262526;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: 'Quicksand', sans-serif;
+      text-align: left;
+      transition: background 0.2s;
+    }
+    
+    .lang-option:hover {
+      background: #f5f5f5;
+    }
+    
+    .lang-option.selected {
+      background: #3CEF2F;
+      color: white;
+    }
+    
+    /* Phone Button */
+    .phone-btn {
+      background: #FF6D00;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: 'Quicksand', sans-serif;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    
+    .phone-btn:hover {
+      background: #e56200;
+    }
+    
+    .phone-icon {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+    
+    /* Hamburger Menu */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 8px;
+    }
+    
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background: #262526;
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+    
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(8px, 8px);
+    }
+    
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -7px);
+    }
+    
+    /* Mobile Menu */
+    .mobile-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      padding: 0 24px;
+      flex-direction: column;
+      gap: 16px;
+      border-top: 1px solid #e0e0e0;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      z-index: 999;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    }
+    
+    .mobile-menu.active {
+      max-height: 600px;
+      padding: 24px;
+    }
+    
+    .mobile-menu-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .mobile-menu-title {
+      font-weight: 600;
+      color: #444496;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+    
+    .mobile-menu-section a {
+      padding-left: 12px;
+      font-size: 14px;
+      color: #262526;
+      text-decoration: none;
+    }
+    
+    .mobile-menu-section a:hover {
+      color: #444496;
+    }
+    
+    .mobile-menu > a {
+      color: #262526;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+      padding: 12px 0;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .mobile-menu .language-selector {
+      padding: 12px 0;
+      position: relative;
+    }
+    
+    .mobile-menu .phone-btn {
+      width: 100%;
+      margin-top: 8px;
+    }
+    
+    .mobile-menu .phone-text {
+      display: inline !important;
+    }
+    
+    /* Reviews Ticker */
+    .reviews-ticker {
+      background: #444496;
+      padding: 8px 0;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    
+    .google-label {
+      padding-left: 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+      z-index: 1;
+    }
+    
+    .google-icon {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+    
+    .google-text {
+      color: white;
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    
+    .ticker-container {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .reviews-scroll {
+      display: flex;
+      gap: 50px;
+      animation: scroll-reviews 35s linear infinite;
+      white-space: nowrap;
+    }
+    
+    @keyframes scroll-reviews {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    
+    .review-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.85);
+      flex-shrink: 0;
+    }
+    
+    .gold-stars {
+      color: #f59e0b;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+    }
+    
+    /* Features Bar */
+    .features-bar {
+      background: #f5f5f7;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 48px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #262526;
+      font-size: 14px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    
+    .feature-icon {
+      width: 20px;
+      height: 20px;
+      fill: #3CEF2F;
+      flex-shrink: 0;
+    }
+    
+    .divider {
+      width: 1px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.3);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .menu {
+        display: none;
+      }
+      
+      .header-right {
+        display: none;
+      }
+      
+      .hamburger {
+        display: flex;
+      }
+      
+      .phone-text {
+        display: none;
+      }
+      
+      .phone-btn {
+        padding: 10px;
+        min-width: 38px;
+        justify-content: center;
+      }
+      
+      .features-bar {
+        gap: 24px;
+        padding: 10px 16px;
+        flex-wrap: wrap;
+        justify-content: space-around;
+      }
+      
+      .feature-item {
+        font-size: 12px;
+        gap: 6px;
+      }
+      
+      .feature-icon {
+        width: 16px;
+        height: 16px;
+      }
+      
+      .divider {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <!-- Logo -->
+    <img src="https://phink78.github.io/GMM/logo_green.png" alt="Green Marine Motors" class="logo">
+    
+    <!-- Desktop Menu -->
+    <nav class="menu">
+      <div class="menu-item">
+        <button class="menu-trigger" onclick="toggleDropdown('motorMenu')">Motor</button>
+        <div class="dropdown-menu" id="motorMenu">
+          <div class="dropdown-column">
+            <a href="#gm5">GM5</a>
+            <a href="#gm7-5">GM7.5</a>
+            <a href="#gm10">GM10</a>
+            <a href="#gm17-5">GM17.5</a>
+          </div>
+          <div class="dropdown-column">
+            <a href="#gm22-5">GM22.5</a>
+            <a href="#gm35">GM35</a>
+            <a href="#gm45">GM45</a>
+            <a href="#gm60">GM60</a>
+          </div>
+          <div class="dropdown-column">
+            <a href="#maatwerk">Maatwerk</a>
+            <a href="#hybride">Hybride</a>
+          </div>
+        </div>
+      </div>
+      <a href="#zakelijk">Zakelijk</a>
+      <a href="#showcases">Showcases</a>
+      <div class="menu-item">
+        <button class="menu-trigger" onclick="toggleDropdown('serviceMenu')">Service</button>
+        <div class="dropdown-menu" id="serviceMenu">
+          <div class="dropdown-column">
+            <a href="#faq">Veelgestelde vragen</a>
+            <a href="#dealers">Dealers</a>
+          </div>
+          <div class="dropdown-column">
+            <a href="#vind-dealer">Vind een dealer</a>
+            <a href="#downloads">Downloads</a>
+          </div>
+          <div class="dropdown-column">
+            <a href="#contact">Contact</a>
+          </div>
+        </div>
+      </div>
+      <a href="#over-ons">Over ons</a>
+    </nav>
+    
+    <!-- Right Section -->
+    <div class="header-right">
+      <!-- Language Selector -->
+      <div class="language-selector">
+        <button class="lang-dropdown-btn" onclick="toggleLanguageDropdown()">
+          <span id="currentLang">NL</span>
+        </button>
+        <div class="lang-dropdown" id="langDropdown">
+          <button class="lang-option selected" onclick="selectLanguage('NL')">NL</button>
+          <button class="lang-option" onclick="selectLanguage('EN')">EN</button>
+          <button class="lang-option" onclick="selectLanguage('SE')">SE</button>
+          <button class="lang-option" onclick="selectLanguage('DE')">DE</button>
+          <button class="lang-option" onclick="selectLanguage('FR')">FR</button>
+        </div>
+      </div>
+      
+      <!-- Phone Button -->
+      <a href="tel:+31752340007" class="phone-btn">
+        <svg class="phone-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+        </svg>
+        <span class="phone-text">Bel Ons</span>
+      </a>
+    </div>
+    
+    <!-- Hamburger Menu (Mobile) -->
+    <button class="hamburger" onclick="toggleMobileMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+  
+  <!-- Mobile Menu -->
+  <nav class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-section">
+      <div class="mobile-menu-title">Motor</div>
+      <a href="#gm5">GM5</a>
+      <a href="#gm7-5">GM7.5</a>
+      <a href="#gm10">GM10</a>
+      <a href="#gm17-5">GM17.5</a>
+      <a href="#gm22-5">GM22.5</a>
+      <a href="#gm35">GM35</a>
+      <a href="#gm45">GM45</a>
+      <a href="#gm60">GM60</a>
+      <a href="#maatwerk">Maatwerk</a>
+      <a href="#hybride">Hybride</a>
+    </div>
+    
+    <a href="#zakelijk">Zakelijk</a>
+    <a href="#showcases">Showcases</a>
+    
+    <div class="mobile-menu-section">
+      <div class="mobile-menu-title">Service</div>
+      <a href="#faq">Veelgestelde vragen</a>
+      <a href="#dealers">Dealers</a>
+      <a href="#vind-dealer">Vind een dealer</a>
+      <a href="#downloads">Downloads</a>
+      <a href="#contact">Contact</a>
+    </div>
+    
+    <a href="#over-ons">Over ons</a>
+    
+    <div class="language-selector">
+      <button class="lang-dropdown-btn" onclick="toggleLanguageDropdown(true)">
+        <span id="currentLangMobile">NL</span>
+      </button>
+      <div class="lang-dropdown" id="langDropdownMobile">
+        <button class="lang-option selected" onclick="selectLanguage('NL')">NL</button>
+        <button class="lang-option" onclick="selectLanguage('EN')">EN</button>
+        <button class="lang-option" onclick="selectLanguage('SE')">SE</button>
+        <button class="lang-option" onclick="selectLanguage('DE')">DE</button>
+        <button class="lang-option" onclick="selectLanguage('FR')">FR</button>
+      </div>
+    </div>
+    
+    <a href="tel:+31752340007" class="phone-btn">
+      <svg class="phone-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+      </svg>
+      <span class="phone-text">+31 75 234 0007</span>
+    </a>
+  </nav>
+  
+  <!-- Reviews Ticker -->
+  <div class="reviews-ticker">
+    <!-- Google Label (static on left) -->
+    <div class="google-label">
+      <svg class="google-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+      </svg>
+      <span class="google-text">Google:</span>
+    </div>
+    
+    <!-- Scrolling Reviews -->
+    <div class="ticker-container">
+      <div class="reviews-scroll">
+        <span class="review-item"><span class="gold-stars">★★★★★</span> Sophie: "Geweldige service, motor draait perfect!"</span>
+        <span class="review-item"><span class="gold-stars">★★★★★</span> Mark: "Snel geleverd en super stil op het water."</span>
+        <span class="review-item"><span class="gold-stars">★★★★★</span> Lisa: "Eindelijk emissievrij varen, top!"</span>
+        <span class="review-item"><span class="gold-stars">★★★★★</span> Jan: "Uitstekende prijs-kwaliteit verhouding."</span>
+        <span class="review-item"><span class="gold-stars">★★★★★</span> Emma: "Vriendelijk team, erg tevreden."</span>
+        <span class="review-item"><span class="gold-stars">★★★★★</span> Pieter: "Betrouwbaar en krachtig, aanrader!"</span>
+        <span class="review-item"><span class="gold-stars">★★★★★</span> Anna: "De calculator hielp perfect bij mijn keuze."</span>
+        <span class="review-item"><span class="gold-stars">★★★★★</span> Dirk: "Mooie motor, snel en efficient varen."</span>
+        
+        <!-- Duplicate for seamless loop -->
+        <span class="review-item"><span class="gold-stars">★★★★★</span> Sophie: "Geweldige service, motor draait perfect!"</span>
+        <span class="review-item"><span class="gold-stars">★★★★★</span> Mark: "Snel geleverd en super stil op het water."</span>
+        <span class="review-item"><span class="gold-stars">★★★★★</span> Lisa: "Eindelijk emissievrij varen, top!"</span>
+        <span class="review-item"><span class="gold-stars">★★★★★</span> Jan: "Uitstekende prijs-kwaliteit verhouding."</span>
+        <span class="review-item"><span class="gold-stars">★★★★★</span> Emma: "Vriendelijk team, erg tevreden."</span>
+        <span class="review-item"><span class="gold-stars">★★★★★</span> Pieter: "Betrouwbaar en krachtig, aanrader!"</span>
+        <span class="review-item"><span class="gold-stars">★★★★★</span> Anna: "De calculator hielp perfect bij mijn keuze."</span>
+        <span class="review-item"><span class="gold-stars">★★★★★</span> Dirk: "Mooie motor, snel en efficient varen."</span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Features Bar -->
+  <div class="features-bar">
+    <!-- Krachtig -->
+    <div class="feature-item">
+      <svg class="feature-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M7 2v11h3v9l7-12h-4l4-8z"/>
+      </svg>
+      <span>Krachtig</span>
+    </div>
+    
+    <div class="divider"></div>
+    
+    <!-- Fluisterstil -->
+    <div class="feature-item">
+      <svg class="feature-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
+      </svg>
+      <span>Fluisterstil</span>
+    </div>
+    
+    <div class="divider"></div>
+    
+    <!-- 5 jaar garantie -->
+    <div class="feature-item">
+      <svg class="feature-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+      </svg>
+      <span>5 jaar garantie</span>
+    </div>
+  </div>
+  
+  <script>
+    let currentLanguage = 'NL';
+    
+    function toggleDropdown(menuId) {
+      const menu = document.getElementById(menuId);
+      const isActive = menu.classList.contains('active');
+      
+      // Close all dropdowns
+      document.querySelectorAll('.dropdown-menu').forEach(dropdown => {
+        dropdown.classList.remove('active');
+      });
+      
+      // Toggle the clicked dropdown
+      if (!isActive) {
+        menu.classList.add('active');
+      }
+    }
+    
+    function toggleMobileMenu() {
+      const hamburger = document.querySelector('.hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      hamburger.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+    }
+    
+    function toggleLanguageDropdown(isMobile = false) {
+      const dropdownId = isMobile ? 'langDropdownMobile' : 'langDropdown';
+      const dropdown = document.getElementById(dropdownId);
+      const btn = dropdown.previousElementSibling;
+      
+      // Close other dropdown
+      const otherDropdownId = isMobile ? 'langDropdown' : 'langDropdownMobile';
+      const otherDropdown = document.getElementById(otherDropdownId);
+      if (otherDropdown) {
+        otherDropdown.classList.remove('active');
+        otherDropdown.previousElementSibling.classList.remove('active');
+      }
+      
+      dropdown.classList.toggle('active');
+      btn.classList.toggle('active');
+    }
+    
+    function selectLanguage(lang) {
+      currentLanguage = lang;
+      
+      // Update both desktop and mobile displays
+      document.getElementById('currentLang').textContent = lang;
+      document.getElementById('currentLangMobile').textContent = lang;
+      
+      // Update selected state in both dropdowns
+      document.querySelectorAll('.lang-option').forEach(btn => {
+        if (btn.textContent === lang) {
+          btn.classList.add('selected');
+        } else {
+          btn.classList.remove('selected');
+        }
+      });
+      
+      // Close dropdowns
+      document.querySelectorAll('.lang-dropdown').forEach(dropdown => {
+        dropdown.classList.remove('active');
+      });
+      document.querySelectorAll('.lang-dropdown-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      
+      // Send message to parent window (Wix)
+      if (window.parent) {
+        window.parent.postMessage({
+          type: 'GREEN_MARINE_LANGUAGE',
+          language: lang
+        }, '*');
+      }
+      
+      console.log('Language changed to:', lang);
+    }
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(event) {
+      // Close language dropdowns
+      if (!event.target.closest('.language-selector')) {
+        document.querySelectorAll('.lang-dropdown').forEach(dropdown => {
+          dropdown.classList.remove('active');
+        });
+        document.querySelectorAll('.lang-dropdown-btn').forEach(btn => {
+          btn.classList.remove('active');
+        });
+      }
+      
+      // Close menu dropdowns
+      if (!event.target.closest('.menu-item')) {
+        document.querySelectorAll('.dropdown-menu').forEach(dropdown => {
+          dropdown.classList.remove('active');
+        });
+      }
+    });
+  </script>
+</body>
+</html>

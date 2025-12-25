@@ -1480,8 +1480,9 @@
       document.getElementById('stepText').textContent = 'Stap ' + currentStep + ' van ' + totalSteps;
       document.getElementById('percentText').textContent = Math.round(percent) + '%';
       
-      // Calculate progress for the connecting line (between circles)
-      // The line fills to the next circle position
+      // Calculate progress for the connecting line between step circles.
+      // This represents progress between circle positions (not overall completion),
+      // so it uses (currentStep - 1) / (totalSteps - 1) instead of currentStep / totalSteps.
       const lineProgress = ((currentStep - 1) / (totalSteps - 1)) * 100;
       document.getElementById('progressFill').style.width = lineProgress + '%';
       

@@ -507,14 +507,14 @@
     }
     
     .progress-bar-container {
-      padding: 16px 28px 12px;
+      padding: 20px 28px 16px;
       border-bottom: 1px solid var(--border-light);
     }
     
     .progress-info {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
     }
     
     .progress-info span {
@@ -528,20 +528,98 @@
     
     .progress-info .percent {
       color: var(--ocean-cyan);
+      font-weight: 600;
     }
     
-    .progress-bar {
+    /* Modern Step Filler with Circles */
+    .step-filler-wrapper {
+      position: relative;
+      padding: 10px 0;
+    }
+    
+    .step-filler-track {
+      position: absolute;
+      top: 50%;
+      left: 40px;
+      right: 40px;
       height: 3px;
       background: var(--sky-light);
+      transform: translateY(-50%);
       border-radius: 2px;
       overflow: hidden;
     }
     
-    .progress-fill {
+    .step-filler-progress {
+      position: absolute;
+      top: 0;
+      left: 0;
       height: 100%;
       background: linear-gradient(90deg, var(--ocean-cyan) 0%, var(--nature-green) 100%);
       border-radius: 2px;
-      transition: width 0.4s ease;
+      transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 8px rgba(14, 116, 144, 0.4);
+    }
+    
+    .step-circles {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      z-index: 2;
+    }
+    
+    .step-circle {
+      position: relative;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--pure-white);
+      border: 3px solid var(--sky-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted-text);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .step-circle.completed {
+      background: linear-gradient(135deg, var(--ocean-cyan) 0%, var(--nature-green) 100%);
+      border-color: var(--ocean-cyan);
+      color: var(--pure-white);
+      box-shadow: 0 2px 12px rgba(14, 116, 144, 0.3);
+    }
+    
+    .step-circle.active {
+      background: linear-gradient(135deg, var(--ocean-cyan) 0%, var(--ocean-cyan-light) 100%);
+      border-color: var(--ocean-cyan);
+      color: var(--pure-white);
+      box-shadow: 0 0 0 4px rgba(14, 116, 144, 0.15);
+      animation: pulse-step 2s ease-in-out infinite;
+    }
+    
+    .step-circle .checkmark {
+      display: none;
+      width: 14px;
+      height: 14px;
+    }
+    
+    .step-circle.completed .checkmark {
+      display: block;
+    }
+    
+    .step-circle.completed .step-number {
+      display: none;
+    }
+    
+    @keyframes pulse-step {
+      0%, 100% {
+        box-shadow: 0 0 0 4px rgba(14, 116, 144, 0.15);
+      }
+      50% {
+        box-shadow: 0 0 0 8px rgba(14, 116, 144, 0.25);
+      }
     }
     
     .calculator-content {
@@ -1106,8 +1184,36 @@
           <span class="step" id="stepText">Stap 1 van 4</span>
           <span class="percent" id="percentText">25%</span>
         </div>
-        <div class="progress-bar">
-          <div class="progress-fill" id="progressFill" style="width: 25%"></div>
+        <div class="step-filler-wrapper">
+          <div class="step-filler-track">
+            <div class="step-filler-progress" id="progressFill" style="width: 0%"></div>
+          </div>
+          <div class="step-circles">
+            <div class="step-circle active" id="circle1">
+              <span class="step-number">1</span>
+              <svg class="checkmark" viewBox="0 0 14 14" fill="none">
+                <path d="M2 7L5.5 10.5L12 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="step-circle" id="circle2">
+              <span class="step-number">2</span>
+              <svg class="checkmark" viewBox="0 0 14 14" fill="none">
+                <path d="M2 7L5.5 10.5L12 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="step-circle" id="circle3">
+              <span class="step-number">3</span>
+              <svg class="checkmark" viewBox="0 0 14 14" fill="none">
+                <path d="M2 7L5.5 10.5L12 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="step-circle" id="circle4">
+              <span class="step-number">4</span>
+              <svg class="checkmark" viewBox="0 0 14 14" fill="none">
+                <path d="M2 7L5.5 10.5L12 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
         </div>
       </div>
       
@@ -1369,10 +1475,32 @@
     }
     
     function updateProgress() {
-      const percent = (currentStep / 4) * 100;
-      document.getElementById('stepText').textContent = 'Stap ' + currentStep + ' van 4';
+      const totalSteps = 4;
+      const percent = (currentStep / totalSteps) * 100;
+      document.getElementById('stepText').textContent = 'Stap ' + currentStep + ' van ' + totalSteps;
       document.getElementById('percentText').textContent = Math.round(percent) + '%';
-      document.getElementById('progressFill').style.width = percent + '%';
+      
+      // Calculate progress for the connecting line (between circles)
+      // The line fills to the next circle position
+      const lineProgress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+      document.getElementById('progressFill').style.width = lineProgress + '%';
+      
+      // Update step circles
+      for (let i = 1; i <= totalSteps; i++) {
+        const circle = document.getElementById('circle' + i);
+        if (i < currentStep) {
+          // Completed steps
+          circle.classList.remove('active');
+          circle.classList.add('completed');
+        } else if (i === currentStep) {
+          // Current active step
+          circle.classList.remove('completed');
+          circle.classList.add('active');
+        } else {
+          // Future steps
+          circle.classList.remove('active', 'completed');
+        }
+      }
     }
     
     function updateLength(value) {
